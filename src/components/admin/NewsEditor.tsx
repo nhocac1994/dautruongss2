@@ -140,7 +140,8 @@ export default function NewsEditor({
         <div className="mb-2 rounded-lg border border-purple-500/15 bg-black/40 p-3 text-xs text-zinc-400 space-y-1">
           <p className="font-medium text-zinc-300">Cú pháp hỗ trợ (giống bài PK tournament):</p>
           <p>🔴 Emoji — gõ trực tiếp · <code className="text-purple-300">## Tiêu đề</code> · <code className="text-purple-300">- danh sách</code></p>
-          <p><code className="text-purple-300">![mô tả](/duong-dan-anh.jpg)</code> — ảnh banner (đặt file vào thư mục <code className="text-purple-300">public/</code>)</p>
+          <p><code className="text-purple-300">![mô tả](/duong-dan-anh.jpg)</code> — ảnh (file trong <code className="text-purple-300">public/</code> hoặc URL https)</p>
+          <p><code className="text-purple-300">[video](https://youtube.com/watch?v=...)</code> — nhúng YouTube · <code className="text-purple-300">[video](https://.../clip.mp4)</code> — file video</p>
           <p><code className="text-purple-300">==Tên người chơi==</code> — tên nổi bật · <code className="text-purple-300">[VS]</code> — icon VS giữa hai tên</p>
           <p><code className="text-purple-300">**in đậm**</code></p>
         </div>

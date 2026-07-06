@@ -18,6 +18,41 @@ function isSafeImageUrl(url: string): boolean {
   return /^https?:\/\//i.test(u);
 }
 
+function isSafeMediaUrl(url: string): boolean {
+  return isSafeImageUrl(url);
+}
+
+function parseYoutubeId(url: string): string | null {
+  const u = url.trim();
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const pattern of patterns) {
+    const match = u.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function parseVideoLine(line: string): string | null {
+  const match = line.trim().match(/^\[(?:video|youtube)\]\(([^)]+)\)$/i);
+  if (!match || !isSafeMediaUrl(match[1])) return null;
+
+  const url = match[1].trim();
+  const youtubeId = parseYoutubeId(url);
+  if (youtubeId) {
+    const embed = `https://www.youtube.com/embed/${youtubeId}`;
+    return `<figure class="article-video"><div class="we-video-wrap"><iframe src="${escapeAttr(embed)}" title="Video YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div></figure>`;
+  }
+
+  if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) {
+    return `<figure class="article-video"><video src="${escapeAttr(url)}" controls playsinline class="article-video-file"></video></figure>`;
+  }
+
+  return `<p><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Xem video</a></p>`;
+}
+
 /** Emoji, ==tên nổi bật==, [VS], **đậm**, *nghiêng*, ![ảnh](url) */
 function inlineFormat(text: string): string {
   let s = escapeHtml(text);
@@ -40,6 +75,10 @@ function parseImageLine(line: string): string | null {
   return `<figure class="article-figure"><img src="${src}" alt="${alt}" loading="lazy" /></figure>`;
 }
 
+function parseMediaLine(line: string): string | null {
+  return parseVideoLine(line) ?? parseImageLine(line);
+}
+
 /** Một dòng trống = đoạn mới; dòng bắt đầu `- ` = danh sách */
 export function simpleMarkdownToHtml(markdown: string): string {
   const normalized = markdown.replace(/\r\n/g, '\n').trim();
@@ -52,7 +91,7 @@ export function simpleMarkdownToHtml(markdown: string): string {
     const lines = block.split('\n').map((l) => l.trimEnd());
     const first = lines[0]?.trim() ?? '';
 
-    const imgBlock = parseImageLine(first);
+    const imgBlock = parseMediaLine(first);
     if (imgBlock && lines.length === 1) {
       html.push(imgBlock);
       continue;
@@ -62,8 +101,8 @@ export function simpleMarkdownToHtml(markdown: string): string {
       html.push(`<h3>${inlineFormat(first.slice(4))}</h3>`);
       for (const line of lines.slice(1)) {
         const t = line.trim();
-        const img = parseImageLine(t);
-        if (img) html.push(img);
+        const media = parseMediaLine(t);
+        if (media) html.push(media);
         else if (t) html.push(`<p>${inlineFormat(t)}</p>`);
       }
       continue;
@@ -72,8 +111,8 @@ export function simpleMarkdownToHtml(markdown: string): string {
       html.push(`<h2>${inlineFormat(first.slice(3))}</h2>`);
       for (const line of lines.slice(1)) {
         const t = line.trim();
-        const img = parseImageLine(t);
-        if (img) html.push(img);
+        const media = parseMediaLine(t);
+        if (media) html.push(media);
         else if (t.startsWith('- ')) {
           html.push(`<ul><li>${inlineFormat(t.slice(2))}</li></ul>`);
         } else if (t) {
@@ -102,8 +141,8 @@ export function simpleMarkdownToHtml(markdown: string): string {
 
     for (const line of lines) {
       const t = line.trim();
-      const img = parseImageLine(t);
-      if (img) html.push(img);
+      const media = parseMediaLine(t);
+      if (media) html.push(media);
       else if (t) html.push(`<p>${inlineFormat(t)}</p>`);
     }
   }
@@ -112,7 +151,7 @@ export function simpleMarkdownToHtml(markdown: string): string {
 }
 
 export function isLikelyHtml(content: string): boolean {
-  return /<\s*(p|h[1-6]|ul|ol|li|div|br|figure|img|mark)\b/i.test(content);
+  return /<\s*(p|h[1-6]|ul|ol|li|div|br|figure|img|video|iframe|mark)\b/i.test(content);
 }
 
 export function renderArticleContent(content: string, format?: 'markdown' | 'text' | 'html'): string {

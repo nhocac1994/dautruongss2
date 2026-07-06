@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SubPageLayout from '@/components/SubPageLayout';
 import Footer from '@/components/Footer';
+import NewsSearchBar, { matchNews } from '@/components/NewsSearchBar';
 import {
   getNewsList,
   formatNewsDateLong,
@@ -25,6 +26,11 @@ export default function NewsPage() {
   const [items, setItems] = useState(FALLBACK_NEWS);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   useEffect(() => {
     getNewsList().then((list) => {
@@ -44,8 +50,12 @@ export default function NewsPage() {
     });
   }, []);
 
-  const totalPages = Math.max(1, Math.ceil(items.length / ITEMS_PER_PAGE));
-  const pageItems = items.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const filteredItems = searchQuery.trim()
+    ? items.filter((item) => matchNews(item, searchQuery))
+    : items;
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / ITEMS_PER_PAGE));
+  const pageItems = filteredItems.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
     <div className="we-page">
@@ -54,7 +64,14 @@ export default function NewsPage() {
           <div className="we-loading-center"><div className="we-spinner" /></div>
         ) : (
           <>
-            {pageItems.map((item) => (
+            <NewsSearchBar items={items} onQueryChange={setSearchQuery} />
+
+            {pageItems.length === 0 ? (
+              <p className="we-news-search-no-result">
+                Không có bản tin nào khớp với &quot;{searchQuery}&quot;.
+              </p>
+            ) : (
+              pageItems.map((item) => (
               <article key={item.link} className="we-news-card">
                 <div className={`we-news-card-head t-${item.type.toLowerCase()}`}>
                   <h3>
@@ -71,9 +88,10 @@ export default function NewsPage() {
                   Published by Administrator, {formatNewsDateLong(item.date)}
                 </div>
               </article>
-            ))}
+              ))
+            )}
 
-            {totalPages > 1 && (
+            {pageItems.length > 0 && totalPages > 1 && (
               <div className="we-pagination">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <button
