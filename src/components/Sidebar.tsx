@@ -197,7 +197,7 @@ export default function Sidebar() {
           </a>
           <a href={zaloLink} target="_blank" rel="noopener noreferrer" className="we-zalo-item">
             <Image src="/Zalo-icon.webp" alt="Zalo" width={28} height={28} className="we-zalo-icon" />
-            MUA BÁN - {serverName.toUpperCase()}
+            THÔNG BÁO - {serverName.toUpperCase()}
           </a>
         </div>
       </div>
