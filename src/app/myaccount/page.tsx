@@ -43,6 +43,7 @@ export default function MyAccount() {
   const [profileErrors, setProfileErrors] = useState<{[key: string]: string}>({});
   const [lastPasswordChange, setLastPasswordChange] = useState<string | null>(null);
   const [canChangePassword, setCanChangePassword] = useState(true);
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
   useEffect(() => {
     // Ưu tiên lấy user từ localStorage (sau khi đăng nhập, ví dụ tài khoản test adminsse)
@@ -151,28 +152,54 @@ export default function MyAccount() {
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validatePasswordForm()) return;
 
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('user_data') : null;
+    const parsed = stored ? (() => { try { return JSON.parse(stored); } catch { return null; } })() : null;
+    const accountId = parsed?.memb___id || parsed?.username || parsed?.accountId || user?.username;
+
+    if (!accountId) {
+      alert('Không tìm thấy thông tin tài khoản. Vui lòng đăng nhập lại.');
+      return;
+    }
+
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Lưu thời gian thay đổi mật khẩu
+      setPasswordLoading(true);
+
+      const response = await fetch('/api/account/password', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          accountId,
+          currentPassword: passwordData.currentPassword,
+          newPassword: passwordData.newPassword,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert('Lỗi: ' + (result.message || 'Không thể đổi mật khẩu'));
+        return;
+      }
+
       const now = new Date().toISOString();
       localStorage.setItem('lastPasswordChange', now);
       setLastPasswordChange(now);
       setCanChangePassword(false);
-      
+
       alert('Mật khẩu đã được thay đổi thành công!');
       setPasswordData({
         currentPassword: '',
         newPassword: '',
-        confirmPassword: ''
+        confirmPassword: '',
       });
     } catch (error) {
       console.error('Password change error:', error);
       alert('Có lỗi xảy ra khi thay đổi mật khẩu. Vui lòng thử lại.');
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
@@ -366,11 +393,11 @@ export default function MyAccount() {
                   <div className="text-center">
                     <button
                       type="submit"
-                      disabled={!canChangePassword}
-                      className={`${btnPrimaryClass} ${!canChangePassword ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      style={canChangePassword ? btnPrimaryStyle : undefined}
+                      disabled={!canChangePassword || passwordLoading}
+                      className={`${btnPrimaryClass} ${!canChangePassword || passwordLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      style={canChangePassword && !passwordLoading ? btnPrimaryStyle : undefined}
                     >
-                      {canChangePassword ? 'Thay đổi mật khẩu' : 'Đã thay đổi trong ngày'}
+                      {passwordLoading ? 'Đang đổi...' : canChangePassword ? 'Thay đổi mật khẩu' : 'Đã thay đổi trong ngày'}
                     </button>
                   </div>
                 </form>
