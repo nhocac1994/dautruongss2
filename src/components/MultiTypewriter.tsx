@@ -9,7 +9,7 @@ interface MultiTypewriterProps {
   deleteSpeed?: number;
   pauseTime?: number;
   className?: string;
-  highlights?: { [key: string]: string }; // { 'Season 1': '#FFD700', 'tôi đang chờ bạn!': '#FF6B35' }
+  highlights?: { [key: string]: string }; // { 'Season 2.0': '#FFD700', 'tôi đang chờ bạn!': '#FF6B35' }
 }
 
 export default function MultiTypewriter({ 

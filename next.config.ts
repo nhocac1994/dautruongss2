@@ -95,7 +95,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: '/panel-mu.png',
+        source: '/panel/muss2.png',
         headers: [
           {
             key: 'Cache-Control',

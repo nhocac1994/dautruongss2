@@ -13,7 +13,7 @@ import {
 } from '@/lib/news-api';
 
 const FALLBACK_NEWS = [
-  { type: 'Notice', title: 'Hướng dẫn chơi — Season 1', date: '2026-04-15', link: '/news/guide', slug: 'guide', excerpt: 'Hướng dẫn chi tiết cách chơi game.' },
+  { type: 'Notice', title: 'Hướng dẫn chơi — Season 2.0', date: '2026-04-15', link: '/news/guide', slug: 'guide', excerpt: 'Hướng dẫn Season 2.0 bản chuẩn — không hạ cấp.' },
   { type: 'Event', title: 'Các sự kiện trong game', date: '2026-04-15', link: '/news/events', slug: 'events', excerpt: 'Double EXP và sự kiện đặc biệt.' },
   { type: 'Update', title: 'Lộ trình phát triển server', date: '2026-04-15', link: '/news/roadmap', slug: 'roadmap', excerpt: 'Kế hoạch phát triển server.' },
   { type: 'Notice', title: 'Thông báo mở server', date: '2026-04-15', link: '/news/opening', slug: 'opening', excerpt: 'Thông báo mở cửa server.' },
@@ -82,10 +82,10 @@ export default function NewsPage() {
                 <div className="we-news-card-body">
                   <h4>{item.title}</h4>
                   <p>{item.excerpt}</p>
-                  <Link href={item.link} className="we-read-more">Read More ›</Link>
+                  <Link href={item.link} className="we-read-more">Xem thêm ›</Link>
                 </div>
                 <div className="we-news-footer">
-                  Published by Administrator, {formatNewsDateLong(item.date)}
+                  Đăng bởi Quản trị viên, {formatNewsDateLong(item.date)}
                 </div>
               </article>
               ))

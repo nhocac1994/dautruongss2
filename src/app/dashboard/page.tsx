@@ -511,7 +511,7 @@ export default function Dashboard() {
                 <button type="button" onClick={() => setShowAccountModal(true)} className="we-btn" style={{ padding: '8px 14px' }}>
                   Quản lý
                 </button>
-                <button type="button" onClick={handleLogout} className="we-btn" style={{ padding: '8px 14px', borderColor: '#cc0000', color: '#cc0000' }}>
+                <button type="button" onClick={handleLogout} className="we-btn" style={{ padding: '8px 14px', borderColor: 'var(--we-red)', color: 'var(--we-red)' }}>
                   Đăng xuất
                 </button>
               </div>

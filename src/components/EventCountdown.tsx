@@ -19,8 +19,8 @@ const defaultEvents: Event[] = [
     name: '[Chaos Castle]', 
     duration: 10, 
     color: 'mu-text-red', 
-    bgColor: 'rgba(204, 0, 0, 0.15)', 
-    borderColor: '#CC0000',
+    bgColor: 'rgba(124, 58, 237, 0.15)', 
+    borderColor: '#7c3aed',
     schedule: (hour, minute) => hour % 2 === 1 && minute === 0 // Giờ lẻ: 1, 3, 5, 7, 9...
   },
   { 
@@ -51,8 +51,8 @@ const defaultEvents: Event[] = [
     name: 'Rong Do', 
     duration: 10, 
     color: 'mu-text-red', 
-    bgColor: 'rgba(153, 0, 0, 0.15)', 
-    borderColor: '#990000',
+    bgColor: 'rgba(124, 58, 237, 0.15)', 
+    borderColor: '#5b21b6',
     schedule: (hour, minute) => hour % 2 === 1 && minute === 30 // Giờ lẻ 1h30: 1:30, 3:30, 5:30...
   },
   { 
@@ -91,8 +91,8 @@ const defaultEvents: Event[] = [
     name: 'Erohim', 
     duration: 10, 
     color: 'mu-text-red', 
-    bgColor: 'rgba(204, 0, 0, 0.15)', 
-    borderColor: '#CC0000',
+    bgColor: 'rgba(124, 58, 237, 0.15)', 
+    borderColor: '#7c3aed',
     schedule: (hour, minute) => (hour === 12 && minute === 30) || (hour === 20 && minute === 15) || (hour === 21 && minute === 45) // 12:30, 20:15, 21:45
   },
 ];
@@ -182,10 +182,14 @@ const EventCountdown: React.FC = () => {
             // Map color to CSS class
             const colorMap: { [key: string]: string } = {
               '#CC0000': 'mu-text-red',
+              '#7c3aed': 'mu-text-red',
+              '#7C3AED': 'mu-text-red',
               '#FFD700': 'mu-text-gold',
               '#FF6600': 'mu-text-orange',
               '#FFA500': 'mu-text-gold',
               '#990000': 'mu-text-red',
+              '#5b21b6': 'mu-text-red',
+              '#5B21B6': 'mu-text-red',
             };
 
             // Convert hex to rgba for bgColor

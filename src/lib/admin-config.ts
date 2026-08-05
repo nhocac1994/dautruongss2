@@ -39,10 +39,10 @@ export interface ConfigFormState {
 
 export const emptyConfigForm = (): ConfigFormState => ({
   nameGame: '',
-  gameTitle: 'Mu Online Season 1',
-  gameSubtitle: '',
+  gameTitle: 'Mu Online Season 2.0',
+  gameSubtitle: 'Bản chuẩn Season 2.0 — Không hạ cấp',
   serverName: '',
-  serverVersion: 'Season 1',
+  serverVersion: 'Season 2.0',
   phone: '',
   email: '',
   address: 'Việt Nam',
@@ -89,10 +89,10 @@ export function configToFormState(raw: Record<string, any>): ConfigFormState {
 
   return {
     nameGame: String(raw.nameGame ?? ''),
-    gameTitle: String(raw.gameTitle ?? 'Mu Online Season 1'),
-    gameSubtitle: String(raw.gameSubtitle ?? ''),
+    gameTitle: String(raw.gameTitle ?? 'Mu Online Season 2.0'),
+    gameSubtitle: String(raw.gameSubtitle ?? 'Bản chuẩn Season 2.0 — Không hạ cấp'),
     serverName: String(raw.serverName ?? raw.nameGame ?? ''),
-    serverVersion: String(raw.serverVersion ?? 'Season 1'),
+    serverVersion: String(raw.serverVersion ?? 'Season 2.0'),
     phone: String(raw.phone ?? ''),
     email: String(raw.email ?? ''),
     address: String(raw.address ?? ''),

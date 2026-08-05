@@ -1,11 +1,11 @@
 {
-  "name": "MuDauTruongSS1.net - Mu Online Season 1",
-  "short_name": "MuTruyenKySS1",
-  "description": "Server Mu Online Season 1 với tỷ lệ exp cao, drop rate tốt. Cộng đồng game thủ Việt Nam hàng đầu.",
+  "name": "SEASON2 - Mu Online Season 2.0 bản chuẩn không hạ cấp",
+  "short_name": "SEASON2",
+  "description": "SEASON2 - Server Mu Online Season 2.0 bản chuẩn, không hạ cấp. Exp cao, drop tốt, cộng đồng game thủ Việt Nam.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#cc0000",
+  "theme_color": "#7c3aed",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "vi",
@@ -38,8 +38,8 @@
   ],
   "screenshots": [
     {
-      "src": "/panel-mu.png",
-      "sizes": "1280x720",
+      "src": "/panel/muss2.png",
+      "sizes": "1365x768",
       "type": "image/png",
       "form_factor": "wide"
     }

@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 import { getNewsList, newsArticleLink, formatNewsDateLong, type NewsArticleListItem } from '@/lib/news-api';
 
 const FALLBACK_NEWS = [
-  { title: 'HƯỚNG DẪN CHƠI - SEASON 1', excerpt: 'Hướng dẫn chi tiết cách chơi game, từ tạo nhân vật đến các tính năng nâng cao.', link: '/news/guide', type: 'Notice', date: '2026-04-15' },
+  { title: 'HƯỚNG DẪN CHƠI - SEASON 2.0', excerpt: 'Hướng dẫn chi tiết cách chơi Season 2.0 bản chuẩn (không hạ cấp), từ tạo nhân vật đến các tính năng nâng cao.', link: '/news/guide', type: 'Notice', date: '2026-04-15' },
   { title: 'CÁC SỰ KIỆN TRONG GAME', excerpt: 'Double EXP, Drop Rate Event, PK Tournament và nhiều sự kiện đặc biệt.', link: '/news/events', type: 'Event', date: '2026-04-15' },
   { title: 'LỘ TRÌNH PHÁT TRIỂN SERVER', excerpt: 'Kế hoạch phát triển, tính năng mới và cải thiện trải nghiệm.', link: '/news/roadmap', type: 'Update', date: '2026-04-15' },
   { title: 'THÔNG BÁO MỞ SERVER', excerpt: 'Thông báo chính thức mở cửa server.', link: '/news/opening', type: 'Notice', date: '2026-04-15' },
@@ -67,10 +67,10 @@ export default function Home() {
                   <div className="we-news-card-body">
                     <h4>{item.title}</h4>
                     <p>{item.excerpt}</p>
-                    <Link href={item.link} className="we-read-more">Read More ›</Link>
+                    <Link href={item.link} className="we-read-more">Xem thêm ›</Link>
                   </div>
                   <div className="we-news-footer">
-                    Published by Administrator, {formatNewsDateLong(item.date)}
+                    Đăng bởi Quản trị viên, {formatNewsDateLong(item.date)}
                   </div>
                 </article>
               ))}

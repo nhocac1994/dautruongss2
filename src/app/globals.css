@@ -64,11 +64,11 @@ html {
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #000000;
+  background: #050208;
 }
 
 body {
-  background: #000000;
+  background: #050208;
   color: #333333;
   font-family: var(--font-family-body), var(--font-main);
   margin: 0;
@@ -1019,8 +1019,8 @@ body::-webkit-scrollbar {
   --mu-gold: #FFD700;
   --mu-gold-dark: #FFA500;
   --mu-orange: #FF6600;
-  --mu-red: #CC0000;
-  --mu-red-dark: #990000;
+  --mu-red: #7c3aed;
+  --mu-red-dark: #5b21b6;
   --mu-blue: #0066CC;
   --mu-blue-dark: #003366;
   --mu-brown: #8B4513;

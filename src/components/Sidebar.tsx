@@ -72,10 +72,6 @@ function formatCountdown(seconds: number): string {
 
 export default function Sidebar() {
   const [config, setConfig] = useState<SiteConfig>(siteConfigStatic as unknown as SiteConfig);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [loggingIn, setLoggingIn] = useState(false);
   const [topPlayers, setTopPlayers] = useState<PlayerRow[]>([]);
   const [rankLoading, setRankLoading] = useState(true);
   const [events, setEvents] = useState<EventConfig[]>([]);
@@ -115,118 +111,37 @@ export default function Sidebar() {
   }, []);
 
   const cfg = config;
-  const serverName = cfg?.serverName || cfg?.nameGame || 'Mu Online';
-  const phone = cfg?.phone || 'Hotline';
-  const zaloLink = cfg?.linkZalo || cfg?.socialMedia?.zalo || '#';
+  const zaloLink = cfg?.linkZalo || cfg?.socialMedia?.zalo || '';
+  const youtubeLink = cfg?.linkYoutube || cfg?.socialMedia?.youtube || '';
+  const tiktokLink = cfg?.linkTikTok || cfg?.socialMedia?.tiktok || '';
   const expRate = cfg?.serverInfo?.expRate || 'x100';
   const dropRate = cfg?.serverInfo?.dropRate || '50%';
-  const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 1';
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!username || !password) {
-      setLoginError('Vui lòng nhập tên đăng nhập và mật khẩu');
-      return;
-    }
-    setLoggingIn(true);
-    setLoginError('');
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      const result = await res.json();
-      if (result.success) {
-        if (result.data?.token) localStorage.setItem('auth_token', result.data.token);
-        localStorage.setItem('user_data', JSON.stringify(result.data || {}));
-        window.location.href = '/dashboard';
-      } else {
-        setLoginError(result.message || 'Đăng nhập thất bại');
-      }
-    } catch {
-      setLoginError('Có lỗi xảy ra. Vui lòng thử lại.');
-    } finally {
-      setLoggingIn(false);
-    }
-  };
+  const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 2.0';
 
   return (
     <aside className="we-sidebar-col">
-      {/* Đăng nhập tài khoản */}
+      {/* Mạng xã hội: Zalo / YouTube / TikTok */}
       <div className="we-box">
-        <div className="we-box-head">
-          Đăng nhập tài khoản
-          <Link href="/login" className="we-box-head-link">Quên mật khẩu?</Link>
-        </div>
-        <div className="we-box-body">
-          <form onSubmit={handleLogin}>
-            <input
-              type="text"
-              className="we-input"
-              placeholder="Tên đăng nhập"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-            />
-            <input
-              type="password"
-              className="we-input"
-              placeholder="Mật khẩu"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-            {loginError && (
-              <p style={{ color: '#cc0000', fontSize: 12, marginBottom: 8 }}>{loginError}</p>
-            )}
-            <button type="submit" className="we-btn we-btn-block" disabled={loggingIn}>
-              {loggingIn ? 'Đang đăng nhập...' : 'Đăng nhập'}
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {/* Zalo Groups */}
-      <div className="we-box">
-        <div className="we-box-head">Nhóm Zalo</div>
+        <div className="we-box-head">Mạng xã hội</div>
         <div className="we-box-body" style={{ paddingTop: 4, paddingBottom: 4 }}>
-          <a href={zaloLink} target="_blank" rel="noopener noreferrer" className="we-zalo-item">
-            <Image src="/Zalo-icon.webp" alt="Zalo" width={28} height={28} className="we-zalo-icon" />
-            THẢO LUẬN - {serverName.toUpperCase()}
-          </a>
-          <a href={zaloLink} target="_blank" rel="noopener noreferrer" className="we-zalo-item">
-            <Image src="/Zalo-icon.webp" alt="Zalo" width={28} height={28} className="we-zalo-icon" />
-            THÔNG BÁO - {serverName.toUpperCase()}
-          </a>
-        </div>
-      </div>
-
-      {/* Admin Support + banner đăng ký / tải game */}
-      <div className="we-box">
-        <div className="we-box-head">Hỗ Trợ Admin</div>
-        <div className="we-box-body">
-          <p style={{ fontWeight: 700, fontSize: 14, margin: '0 0 12px' }}>
-            HOTLINE: {phone}
-          </p>
-          <Link href="/register" className="we-banner-link">
-            <Image
-              src="/DANG-KY.PNG"
-              alt="Đăng ký tài khoản"
-              width={343}
-              height={125}
-              unoptimized
-            />
-          </Link>
-          <Link href="/download" className="we-banner-link">
-            <Image
-              src="/TAI-GAME.PNG"
-              alt="Tải game"
-              width={343}
-              height={125}
-              unoptimized
-            />
-          </Link>
+          {zaloLink && (
+            <a href={zaloLink} target="_blank" rel="noopener noreferrer" className="we-zalo-item">
+              <Image src="/Zalo-icon.webp" alt="Zalo" width={28} height={28} className="we-zalo-icon" />
+              ZALO
+            </a>
+          )}
+          {youtubeLink && (
+            <a href={youtubeLink} target="_blank" rel="noopener noreferrer" className="we-zalo-item">
+              <Image src="/youtube-logo.webp" alt="YouTube" width={28} height={28} className="we-zalo-icon" />
+              YOUTUBE
+            </a>
+          )}
+          {tiktokLink && (
+            <a href={tiktokLink} target="_blank" rel="noopener noreferrer" className="we-zalo-item">
+              <Image src="/tiktok-logo.webp" alt="TikTok" width={28} height={28} className="we-zalo-icon" />
+              TIKTOK
+            </a>
+          )}
         </div>
       </div>
 
@@ -239,6 +154,10 @@ export default function Sidebar() {
               <tr>
                 <td>Phiên bản</td>
                 <td className="we-val-orange">{version}</td>
+              </tr>
+              <tr>
+                <td>Chuẩn</td>
+                <td className="we-val-orange" style={{ fontWeight: 700 }}>Không hạ cấp</td>
               </tr>
               <tr>
                 <td>Kinh nghiệm</td>
@@ -295,7 +214,7 @@ export default function Sidebar() {
       <div className="we-box">
         <div className="we-box-head">
           Top Reset
-          <Link href="/rankings" style={{ fontSize: 18, color: '#cc0000', textDecoration: 'none' }}>+</Link>
+          <Link href="/rankings" style={{ fontSize: 18, color: 'var(--we-red)', textDecoration: 'none' }}>+</Link>
         </div>
         <div className="we-box-body">
           {rankLoading ? (

@@ -66,7 +66,7 @@ export default function LoginPage() {
                   placeholder="Nhập tên đăng nhập"
                   autoComplete="username"
                 />
-                {errors.username && <p style={{ color: '#cc0000', fontSize: 12 }}>{errors.username}</p>}
+                {errors.username && <p style={{ color: 'var(--we-red)', fontSize: 12 }}>{errors.username}</p>}
               </div>
 
               <div style={{ marginBottom: 12 }}>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                   placeholder="Nhập mật khẩu"
                   autoComplete="current-password"
                 />
-                {errors.password && <p style={{ color: '#cc0000', fontSize: 12 }}>{errors.password}</p>}
+                {errors.password && <p style={{ color: 'var(--we-red)', fontSize: 12 }}>{errors.password}</p>}
               </div>
 
               <SimpleCaptcha onVerify={setCaptchaValid} variant="minimal" />

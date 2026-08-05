@@ -35,8 +35,8 @@ export default function Footer() {
     getSiteConfig().then((c) => { if (c) setConfig({ ...siteConfigStatic, ...c } as SiteConfig); });
   }, []);
 
-  const serverName = config?.serverName || config?.nameGame || 'Mu Online';
-  const gameTitle = config?.gameTitle || 'Mu Online Season 1';
+  const serverName = config?.serverName || config?.nameGame || 'SEASON2';
+  const gameTitle = config?.gameTitle || 'Mu Online Season 2.0';
   const year = new Date().getFullYear();
 
   return (
@@ -49,11 +49,16 @@ export default function Footer() {
               This site is in no way associated with or endorsed by Webzen Inc.
             </p>
             <p className="we-footer-desc">
-              {gameTitle} — Trải nghiệm phiên bản Season 1 cổ điển với các class
-              Dark Knight, Dark Wizard, Fairy Elf. Khám phá Lorencia, Devias và
-              nhiều bản đồ huyền thoại khác cùng cộng đồng {serverName}.
+              {gameTitle} — <strong>Bản chuẩn Season 2.0, không hạ cấp</strong>.
+              Trải nghiệm đầy đủ class và hệ thống Season 2.0 chuẩn cùng cộng đồng {serverName}.
             </p>
-            <p className="we-footer-powered">Powered by {serverName}</p>
+            <p className="we-footer-powered">Powered by SEASON2</p>
+            <p className="we-footer-provider">
+              File game cung cấp bởi{' '}
+              <a href="https://www.mumges.org/" target="_blank" rel="noopener noreferrer">
+                mumges.org
+              </a>
+            </p>
           </div>
           <div>
             <div className="we-clocks">

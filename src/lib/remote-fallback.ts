@@ -34,7 +34,7 @@ export function getLocalSiteConfig(): Record<string, unknown> {
     bankTransfer: s.bankTransfer ?? {},
     serverInfo: {
       name: s.serverName ?? s.nameGame,
-      version: s.serverVersion ?? 'Season 1',
+      version: s.serverVersion ?? 'Season 2.0',
       expRate: s.expRate ?? 'x100',
       dropRate: s.dropRate ?? 'x50',
     },

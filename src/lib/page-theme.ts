@@ -14,9 +14,9 @@ export const sectionTitleModern = 'we-page-title';
 export const btnPrimaryClass = 'we-btn we-btn-block';
 export const btnPrimaryStyle = {} as const;
 
-export const linkAccent = 'text-red-700 font-semibold hover:underline';
+export const linkAccent = 'text-purple-700 font-semibold hover:underline';
 
-export const accentText = 'text-red-700';
+export const accentText = 'text-purple-700';
 
 export function newsBadgeClass(type: string): string {
   const colors: Record<string, string> = {

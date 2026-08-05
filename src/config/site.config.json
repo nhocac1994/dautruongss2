@@ -1,9 +1,9 @@
 {
-  "nameGame": "MuHnss1.com",
-  "gameTitle": "Mu Online Season 1",
-  "gameSubtitle": "Hành trình huyền thoại bắt đầu",
-  "serverName": "MuHnss1.com",
-  "serverVersion": "Season 1",
+  "nameGame": "SEASON2",
+  "gameTitle": "Mu Online Season 2.0",
+  "gameSubtitle": "Bản chuẩn Season 2.0 — Không hạ cấp",
+  "serverName": "SEASON2",
+  "serverVersion": "Season 2.0",
   "serverIP": "your-server-ip",
   "serverPort": "55900",
   "linkFacebook": "https://facebook.com/MuHnss1.com",
@@ -11,27 +11,29 @@
   "linkYoutube": "https://youtube.com/@MuHnss1.com",
   "linkZalo": "https://zalo.me/Mu-hnss1.com",
   "linkTikTok": "https://www.tiktok.com/@MuHnss1.com",
-  "email": "support@MuHnss1.com",
+  "email": "support@season2.com",
   "phone": "033.77.44.456",
   "address": "Việt Nam",
   "websiteUrl": "https://MuHnss1.com",
-  "websiteName": "MuHnss1.com",
+  "websiteName": "SEASON2",
   "expRate": "100x",
   "dropRate": "99%",
   "resetLevel": 400,
   "maxReset": 999,
   "eventStartDate": "2025-10-10",
   "eventStartTime": "13:00",
-  "metaDescription": "MuHnss1.com - Server Mu Online Season 1 với tỷ lệ exp cao, drop rate tốt. Game MMORPG miễn phí, PvP, Guild System, Events đặc biệt.",
+  "metaDescription": "SEASON2 - Server Mu Online Season 2.0 bản chuẩn, không hạ cấp. Exp cao, drop tốt, PvP, Guild, Events đặc biệt.",
   "metaKeywords": [
     "Mu Online",
-    "Mu Online Season 1",
-    "MuHnss1.com",
+    "Mu Online Season 2.0",
+    "SEASON2",
+    "Season 2.0 bản chuẩn",
+    "Mu Online không hạ cấp",
     "Server Mu Online",
     "Game Mu Online Việt Nam"
   ],
   "logoImage": "/NAME.PNG",
-  "bannerImage": "/panel-mu.png",
+  "bannerImage": "/panel/muss2.png",
   "favicon": "/favicon.ico",
   "primaryColor": "#FFD700",
   "secondaryColor": "#FFA500",
@@ -39,7 +41,7 @@
   "downloadLinks": {
     "mediafire": "https://www.mediafire.com",
     "mega": "https://mega.nz",
-    "clientVersion": "v1.1"
+    "clientVersion": "Season 2.0"
   },
   "bankTransfer": {
     "accountNumber": "03566730165",
@@ -55,4 +57,3 @@
     "chaosMix": true
   }
 }
-

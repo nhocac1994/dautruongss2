@@ -3,6 +3,7 @@ import "./globals.css";
 import "@/styles/webengine.css";
 import SecurityGuard from "@/components/SecurityGuard";
 import Header from "@/components/Header";
+import AmbientGlow from "@/components/AmbientGlow";
 import { fontBody, fontDisplay } from "./fonts";
 
 import { getSiteConfig } from '@/lib/config';
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     siteName: config.websiteName,
     images: [
       {
-        url: '/panel-mu.png',
+        url: '/panel/muss2.png',
         width: 1200,
         height: 630,
         alt: `${config.nameGame} - ${config.gameTitle} - Hệ thống PvP và chiến đấu`,
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${config.nameGame} - ${config.gameTitle} | Server Game MU Online`,
     description: config.metaDescription,
-    images: ['/panel-mu.png', '/NAME.PNG'],
+    images: ['/panel/muss2.png', '/NAME.PNG'],
   },
   robots: {
     index: true,
@@ -88,7 +89,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#cc0000',
+  themeColor: '#7c3aed',
   viewportFit: 'cover',
 };
 
@@ -107,8 +108,8 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="192x192" href="/web-app-manifest-192x192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/web-app-manifest-512x512.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#cc0000" />
-        <meta name="msapplication-TileColor" content="#cc0000" />
+        <meta name="theme-color" content="#7c3aed" />
+        <meta name="msapplication-TileColor" content="#7c3aed" />
         <meta name="msapplication-TileImage" content="/apple-touch-icon.png" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -127,6 +128,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <SecurityGuard />
+        <AmbientGlow />
         <Header />
         <main className="we-site-canvas">{children}</main>
       </body>

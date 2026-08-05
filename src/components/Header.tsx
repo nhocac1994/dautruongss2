@@ -73,17 +73,19 @@ export default function Header() {
     <header className={`we-nav${isMobileNav ? ' we-nav--mobile' : ''}`}>
       <div className="we-nav-bar">
         <Link href="/" className="we-nav-brand" onClick={() => setMenuOpen(false)}>
-          MU Online
+          MU SEASON2
         </Link>
         {isMobileNav && (
           <button
             type="button"
-            className="we-nav-toggle"
+            className={`we-nav-toggle${menuOpen ? ' is-open' : ''}`}
             onClick={() => setMenuOpen((o) => !o)}
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Đóng menu' : 'Mở menu'}
             aria-expanded={menuOpen}
           >
-            {menuOpen ? '✕ Đóng' : '☰ Menu'}
+            <span className="we-nav-toggle-bar" />
+            <span className="we-nav-toggle-bar" />
+            <span className="we-nav-toggle-bar" />
           </button>
         )}
       </div>

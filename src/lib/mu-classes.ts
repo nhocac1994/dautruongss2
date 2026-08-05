@@ -1,5 +1,5 @@
 /**
- * Mã Class trong bảng Character (cột Class) — Mu Online Season 1 / classic byte.
+ * Mã Class trong bảng Character (cột Class) — Mu Online Season 2.0 / classic byte.
  * Tham chiếu: DW 0–2, DK 16–18, ELF 32–34, MG 48, DL 64.
  */
 export const MU_CLASS_NAMES: Readonly<Record<number, string>> = {

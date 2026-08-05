@@ -17,8 +17,8 @@ export default function DownloadPage() {
 
   const config = siteConfig;
   const links = downloadLinks || config?.downloadLinks;
-  const clientVersion = links?.clientVersion || 'v1.0';
-  const serverName = config?.serverName || config?.nameGame || 'Mu Online';
+  const clientVersion = links?.clientVersion || 'Season 2.0';
+  const serverName = config?.serverName || config?.nameGame || 'SEASON2';
   const displayName = serverName.replace(/\.(net|com|vn|org)$/i, '');
 
   const downloads = [
@@ -98,19 +98,31 @@ export default function DownloadPage() {
           </div>
         )}
 
-        {/* <div className="we-box">
-          <div className="we-box-head">Video hướng dẫn cài đặt game</div>
+        <div className="we-box we-provider-box">
+          <div className="we-box-head">Nhà cung cấp File Game</div>
           <div className="we-box-body">
-            <div className="we-video-wrap">
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Hướng dẫn cài đặt game"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            <p className="we-provider-text">
+              File client Mu Online được cung cấp bởi{' '}
+              <a
+                href="https://www.mumges.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="we-provider-link"
+              >
+                MUMGES.org
+              </a>
+              {' '}— file server chuẩn.
+            </p>
+            <a
+              href="https://www.mumges.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="we-btn we-btn-download"
+            >
+              Truy cập mumges.org
+            </a>
           </div>
-        </div> */}
+        </div>
       </SubPageLayout>
       <Footer />
     </div>

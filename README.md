@@ -1,6 +1,6 @@
-# Frontend — Mu Online (Next.js)
+# dautruongss2 — SEASON2 (Next.js)
 
-Website Mu Online Season 1. Gọi Backend API qua Next.js API routes (`/api/*`).
+Website Mu Online Season 2.0 bản chuẩn (không hạ cấp). Frontend Next.js gọi Backend API qua `/api/*`.
 
 ## Cấu trúc thư mục
 

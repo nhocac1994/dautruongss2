@@ -1,13 +1,13 @@
 // Site Configuration - Thay đổi thông tin tại đây mà không cần sửa mã nguồn
 export const siteConfig = {
   // Thông tin game
-  nameGame: "MuHnss1.com",
-  gameTitle: "Mu Online Season 1",
-  gameSubtitle: "Hành trình huyền thoại bắt đầu",
+  nameGame: "SEASON2",
+  gameTitle: "Mu Online Season 2.0",
+  gameSubtitle: "Bản chuẩn Season 2.0 — Không hạ cấp",
   
   // Thông tin server
-  serverName: "MuHnss1.com",
-  serverVersion: "Season 1",
+  serverName: "SEASON2",
+  serverVersion: "Season 2.0",
   serverIP: "127.0.0.1",
   serverPort: "55900",
   
@@ -19,13 +19,13 @@ export const siteConfig = {
   linkTikTok: "https://www.tiktok.com/@MuHnss1.com",
   
   // Thông tin liên hệ
-  email: "support@MuHnss1.com",
+  email: "support@season2.com",
   phone: "0123456789",
   address: "Việt Nam",
   
   // Thông tin website
   websiteUrl: "https://MuHnss1.com",
-  websiteName: "MuHnss1.com",
+  websiteName: "SEASON2",
   
   // Thông tin game settings
   expRate: "100x",
@@ -38,18 +38,20 @@ export const siteConfig = {
   eventStartTime: "13:00",
   
   // SEO & Meta
-  metaDescription: "MuHnss1.com - Server Mu Online Season 1 với tỷ lệ exp cao, drop rate tốt. Game MMORPG miễn phí, PvP, Guild System, Events đặc biệt.",
+  metaDescription: "SEASON2 - Server Mu Online Season 2.0 bản chuẩn, không hạ cấp. Exp cao, drop tốt, PvP, Guild, Events đặc biệt.",
   metaKeywords: [
     "Mu Online",
-    "Mu Online Season 1",
-    "MuHnss1.com",
+    "Mu Online Season 2.0",
+    "SEASON2",
+    "Season 2.0 bản chuẩn",
+    "Mu Online không hạ cấp",
     "Server Mu Online",
     "Game Mu Online Việt Nam"
   ],
   
   // Images
   logoImage: "/NAME.PNG",
-  bannerImage: "/panel-mu.png",
+  bannerImage: "/panel/muss2.png",
   favicon: "/favicon.ico",
   
   // Colors theme

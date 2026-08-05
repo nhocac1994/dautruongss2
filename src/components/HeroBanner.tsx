@@ -14,7 +14,7 @@ export default function HeroBanner() {
     getSiteConfig().then((c) => { if (c) setConfig({ ...siteConfigStatic, ...c } as SiteConfig); });
   }, []);
 
-  const serverName = config?.serverName || config?.nameGame || 'Mu Online';
+  const serverName = config?.serverName || config?.nameGame || 'SEASON2';
   const logoSrc = `/NAME.PNG?v=${LOGO_VERSION}`;
 
   return (
