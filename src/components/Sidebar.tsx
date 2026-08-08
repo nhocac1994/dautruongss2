@@ -21,8 +21,26 @@ interface ServerStats {
   onlinePlayers: number;
 }
 
+const EMPTY_BOOST: ServerStats = {
+  totalAccounts: 0,
+  totalCharacters: 0,
+  totalGuilds: 0,
+  onlinePlayers: 0,
+};
+
 function formatStat(n: number): string {
   return n.toLocaleString('en-US');
+}
+
+function readStatsBoost(raw: unknown): ServerStats {
+  if (!raw || typeof raw !== 'object') return { ...EMPTY_BOOST };
+  const o = raw as Record<string, unknown>;
+  return {
+    totalAccounts: Math.max(0, Number(o.totalAccounts) || 0),
+    totalCharacters: Math.max(0, Number(o.totalCharacters) || 0),
+    totalGuilds: Math.max(0, Number(o.totalGuilds) || 0),
+    onlinePlayers: Math.max(0, Number(o.onlinePlayers) || 0),
+  };
 }
 
 /** Tên hiển thị gọn (bỏ ngoặc vuông) */
@@ -83,6 +101,9 @@ function formatCountdown(seconds: number): string {
 
 export default function Sidebar() {
   const [config, setConfig] = useState<SiteConfig>(siteConfigStatic as unknown as SiteConfig);
+  const [statsBoost, setStatsBoost] = useState<ServerStats>(() =>
+    readStatsBoost((siteConfigStatic as { statsBoost?: unknown }).statsBoost)
+  );
   const [topPlayers, setTopPlayers] = useState<PlayerRow[]>([]);
   const [rankLoading, setRankLoading] = useState(true);
   const [stats, setStats] = useState<ServerStats | null>(null);
@@ -91,7 +112,28 @@ export default function Sidebar() {
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
-    getSiteConfig().then((c) => { if (c) setConfig({ ...siteConfigStatic, ...c } as SiteConfig); });
+    // Đọc thẳng /api/remote/config (cùng nguồn với phiên bản/EXP) để lấy statsBoost
+    fetch('/api/remote/config', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((result) => {
+        if (!result?.success || !result.data) return;
+        const data = result.data as SiteConfig & { statsBoost?: unknown };
+        const boost = readStatsBoost(data.statsBoost);
+        setStatsBoost(boost);
+        setConfig({
+          ...siteConfigStatic,
+          ...data,
+          statsBoost: boost,
+        } as SiteConfig);
+      })
+      .catch(() => {
+        getSiteConfig().then((c) => {
+          if (!c) return;
+          const boost = readStatsBoost(c.statsBoost);
+          setStatsBoost(boost);
+          setConfig({ ...siteConfigStatic, ...c, statsBoost: boost } as SiteConfig);
+        });
+      });
   }, []);
 
   useEffect(() => {
@@ -106,7 +148,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     const loadStats = () => {
-      fetch('/api/stats')
+      fetch('/api/stats', { cache: 'no-store' })
         .then((r) => r.json())
         .then((data) => {
           if (data.success && data.data) {
@@ -152,11 +194,11 @@ export default function Sidebar() {
   const expRate = cfg?.serverInfo?.expRate || 'x100';
   const dropRate = cfg?.serverInfo?.dropRate || '50%';
   const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 2.0';
-  /* /api/stats đã cộng statsBoost từ config backend */
-  const displayAccounts = stats?.totalAccounts ?? 0;
-  const displayCharacters = stats?.totalCharacters ?? 0;
-  const displayGuilds = stats?.totalGuilds ?? 0;
-  const displayOnline = stats?.onlinePlayers ?? 0;
+  /* Hiển thị = số thật (/api/stats) + statsBoost (config) */
+  const displayAccounts = (stats?.totalAccounts ?? 0) + statsBoost.totalAccounts;
+  const displayCharacters = (stats?.totalCharacters ?? 0) + statsBoost.totalCharacters;
+  const displayGuilds = (stats?.totalGuilds ?? 0) + statsBoost.totalGuilds;
+  const displayOnline = (stats?.onlinePlayers ?? 0) + statsBoost.onlinePlayers;
 
   return (
     <aside className="we-sidebar-col">

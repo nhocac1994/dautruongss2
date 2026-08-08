@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { securityMiddleware } from '@/lib/security-middleware';
 import { getBackendUrl, getBackendBaseUrl } from '@/config/backend.config';
-import { getLocalSiteConfig } from '@/lib/remote-fallback';
 
 export type ServerStats = {
   totalAccounts: number;
@@ -31,73 +30,40 @@ function normalizeStats(raw: Record<string, unknown> | null | undefined): Server
   };
 }
 
-function backendCandidateUrls(path: string): string[] {
-  const urls = [getBackendUrl(path)];
+async function fetchStatsFromBackend(): Promise<ServerStats | null> {
+  const urls = [getBackendUrl('/api/stats')];
   const isDev = process.env.NODE_ENV === 'development';
   const base = getBackendBaseUrl();
   if (isDev && !base.includes('127.0.0.1') && !base.includes('localhost')) {
-    urls.push(`http://127.0.0.1:3001${path}`);
+    urls.push('http://127.0.0.1:3001/api/stats');
   }
-  return urls;
-}
 
-async function fetchJson(url: string): Promise<Record<string, unknown> | null> {
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-    const res = await fetch(url, {
-      signal: controller.signal,
-      headers: { Accept: 'application/json' },
-      cache: 'no-store',
-    });
-    clearTimeout(timer);
-    if (!res.ok) return null;
-    return (await res.json()) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-async function fetchStatsFromBackend(): Promise<ServerStats> {
-  for (const url of backendCandidateUrls('/api/stats')) {
-    const json = await fetchJson(url);
-    if (json?.success && json.data && typeof json.data === 'object') {
-      return normalizeStats(json.data as Record<string, unknown>);
-    }
-  }
-  return emptyStats();
-}
-
-/** Đọc statsBoost từ config backend (hoặc fallback local) */
-async function fetchStatsBoost(): Promise<ServerStats> {
-  for (const url of backendCandidateUrls('/api/config')) {
-    const json = await fetchJson(url);
-    if (json?.success && json.data && typeof json.data === 'object') {
-      const data = json.data as Record<string, unknown>;
-      const boost = data.statsBoost;
-      if (boost && typeof boost === 'object') {
-        return normalizeStats(boost as Record<string, unknown>);
+  for (const url of urls) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: { Accept: 'application/json' },
+        cache: 'no-store',
+      });
+      clearTimeout(timer);
+      if (!res.ok) continue;
+      const json = (await res.json()) as {
+        success?: boolean;
+        data?: Record<string, unknown>;
+      };
+      if (json.success && json.data) {
+        return normalizeStats(json.data);
       }
+    } catch {
+      /* thử URL tiếp */
     }
   }
-
-  const local = getLocalSiteConfig();
-  const boost = local.statsBoost;
-  if (boost && typeof boost === 'object') {
-    return normalizeStats(boost as Record<string, unknown>);
-  }
-  return emptyStats();
+  return null;
 }
 
-function addStats(a: ServerStats, b: ServerStats): ServerStats {
-  return {
-    totalAccounts: a.totalAccounts + b.totalAccounts,
-    totalCharacters: a.totalCharacters + b.totalCharacters,
-    totalGuilds: a.totalGuilds + b.totalGuilds,
-    onlinePlayers: a.onlinePlayers + b.onlinePlayers,
-  };
-}
-
+/** Trả số THẬT từ DB — statsBoost cộng ở Sidebar từ /api/remote/config */
 export async function GET(request: NextRequest) {
   try {
     let securityCheck: Awaited<ReturnType<typeof securityMiddleware>>;
@@ -105,11 +71,10 @@ export async function GET(request: NextRequest) {
       securityCheck = await securityMiddleware(request, '/api/stats');
     } catch (mwErr) {
       console.error('Stats securityMiddleware:', mwErr);
-      const boost = await fetchStatsBoost();
       return NextResponse.json({
         success: true,
-        data: boost,
-        message: 'Chỉ hiển thị statsBoost (security).',
+        data: emptyStats(),
+        message: 'Không lấy được thống kê (security).',
       });
     }
     if (securityCheck && !securityCheck.allowed) {
@@ -122,17 +87,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const [real, boost] = await Promise.all([fetchStatsFromBackend(), fetchStatsBoost()]);
-    const data = addStats(real, boost);
+    const real = (await fetchStatsFromBackend()) ?? emptyStats();
 
     return NextResponse.json(
       {
         success: true,
-        data,
-        meta: { real, boost },
-        message: 'Thống kê = số thật DB + statsBoost config.',
+        data: real,
+        message: 'Thống kê thật từ database (boost cộng ở frontend).',
       },
-      { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } }
+      { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
     );
   } catch (error) {
     console.error('Stats API error:', error);
