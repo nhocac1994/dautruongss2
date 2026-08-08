@@ -34,15 +34,15 @@ export const metadata: Metadata = {
     siteName: config.websiteName,
     images: [
       {
-        url: '/panel/muss2.png',
+        url: '/panel/muss2-og.jpg',
         width: 1200,
         height: 630,
         alt: `${config.nameGame} - ${config.gameTitle} - Hệ thống PvP và chiến đấu`,
       },
       {
-        url: '/NAME.PNG',
-        width: 1200,
-        height: 630,
+        url: '/NAME.webp',
+        width: 640,
+        height: 640,
         alt: `${config.nameGame} - ${config.gameTitle} - Logo chính thức`,
       },
     ],
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${config.nameGame} - ${config.gameTitle} | Server Game MU Online`,
     description: config.metaDescription,
-    images: ['/panel/muss2.png', '/NAME.PNG'],
+    images: ['/panel/muss2-og.jpg', '/NAME.webp'],
   },
   robots: {
     index: true,

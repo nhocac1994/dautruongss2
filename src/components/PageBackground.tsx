@@ -26,8 +26,8 @@ export default function PageBackground({ variant = 'default' }: PageBackgroundPr
     <div
       className="page-bg-layer fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: 'url(/panel/muss2.png)',
-        filter: 'brightness(0.45) contrast(1.05)',
+        backgroundImage: 'url(/panel/muss2.webp)',
+        /* Không dùng CSS filter trên ảnh full-viewport — gây giật khi cuộn */
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />

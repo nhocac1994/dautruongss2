@@ -50,8 +50,8 @@ export const siteConfig = {
   ],
   
   // Images
-  logoImage: "/NAME.PNG",
-  bannerImage: "/panel/muss2.png",
+  logoImage: "/NAME.webp",
+  bannerImage: "/panel/muss2.webp",
   favicon: "/favicon.ico",
   
   // Colors theme

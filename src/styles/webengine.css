@@ -33,98 +33,77 @@
   width: 100%;
 }
 
-/* Nền AI: đen + bóng sáng tím chạy chậm */
+/* Nền AI: đen + ánh tím — tĩnh, không blur/animation (tránh FPS thấp khi cuộn) */
 .we-ambient {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
 }
 
 .we-ambient-base {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(76, 29, 149, 0.35) 0%, transparent 55%),
-    linear-gradient(165deg, #0c0618 0%, #050208 42%, #0a0414 100%);
+    radial-gradient(ellipse 80% 55% at 50% -8%, rgba(76, 29, 149, 0.32) 0%, transparent 55%),
+    linear-gradient(165deg, #0c0618 0%, #050208 45%, #0a0414 100%);
 }
 
-.we-ambient-blob {
+.we-ambient-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(72px);
-  will-change: transform, opacity;
-  opacity: 0.75;
+  /* Soft edge bằng gradient — KHÔNG dùng filter:blur (rất nặng khi scroll) */
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.28) 0%,
+    rgba(91, 33, 182, 0.1) 42%,
+    transparent 70%
+  );
 }
 
-.we-ambient-blob--a {
-  width: min(52vw, 560px);
-  height: min(52vw, 560px);
-  top: -8%;
-  left: -6%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, rgba(91, 33, 182, 0.15) 45%, transparent 70%);
-  animation: we-blob-drift-a 22s ease-in-out infinite alternate;
+.we-ambient-glow--tl {
+  width: min(70vw, 640px);
+  height: min(70vw, 640px);
+  top: -18%;
+  left: -12%;
 }
 
-.we-ambient-blob--b {
-  width: min(48vw, 520px);
-  height: min(48vw, 520px);
-  top: 8%;
-  right: -10%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, rgba(124, 58, 237, 0.12) 50%, transparent 72%);
-  animation: we-blob-drift-b 26s ease-in-out infinite alternate;
+.we-ambient-glow--tr {
+  width: min(60vw, 520px);
+  height: min(60vw, 520px);
+  top: 5%;
+  right: -14%;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.22) 0%,
+    rgba(124, 58, 237, 0.08) 45%,
+    transparent 72%
+  );
 }
 
-.we-ambient-blob--c {
-  width: min(55vw, 600px);
-  height: min(55vw, 600px);
-  bottom: -12%;
-  left: 18%;
-  background: radial-gradient(circle, rgba(109, 40, 217, 0.4) 0%, rgba(76, 29, 149, 0.12) 48%, transparent 70%);
-  animation: we-blob-drift-c 28s ease-in-out infinite alternate;
+.we-ambient-glow--bl {
+  width: min(75vw, 680px);
+  height: min(75vw, 680px);
+  bottom: -22%;
+  left: 10%;
+  background: radial-gradient(
+    circle,
+    rgba(109, 40, 217, 0.2) 0%,
+    rgba(76, 29, 149, 0.08) 48%,
+    transparent 70%
+  );
 }
 
-.we-ambient-blob--d {
-  width: min(36vw, 380px);
-  height: min(36vw, 380px);
-  bottom: 22%;
-  right: 12%;
-  background: radial-gradient(circle, rgba(192, 132, 252, 0.35) 0%, transparent 65%);
-  animation: we-blob-drift-d 18s ease-in-out infinite alternate;
-}
+@media (max-width: 900px) {
+  .we-ambient-glow--tr {
+    opacity: 0.65;
+  }
 
-.we-ambient-veil {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(5, 2, 8, 0.55) 0%, transparent 60%),
-    radial-gradient(circle at 50% 40%, transparent 0%, rgba(5, 2, 8, 0.25) 100%);
-}
-
-@keyframes we-blob-drift-a {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.65; }
-  100% { transform: translate(12%, 18%) scale(1.15); opacity: 0.9; }
-}
-
-@keyframes we-blob-drift-b {
-  0% { transform: translate(0, 0) scale(1.05); opacity: 0.55; }
-  100% { transform: translate(-14%, 22%) scale(0.92); opacity: 0.85; }
-}
-
-@keyframes we-blob-drift-c {
-  0% { transform: translate(0, 0) scale(0.95); opacity: 0.5; }
-  100% { transform: translate(16%, -12%) scale(1.12); opacity: 0.8; }
-}
-
-@keyframes we-blob-drift-d {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-  100% { transform: translate(-18%, -10%) scale(1.2); opacity: 0.7; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .we-ambient-blob {
-    animation: none;
+  .we-ambient-glow--bl {
+    opacity: 0.5;
   }
 }
 
@@ -170,7 +149,9 @@
   max-width: 100%;
   display: block;
   vertical-align: top;
-  aspect-ratio: 1365 / 768;
+  aspect-ratio: 16 / 9;
+  content-visibility: auto;
+  contain-intrinsic-size: 1920px 1080px;
 }
 
 .we-page-backrow::after {
@@ -185,7 +166,7 @@
   );
 }
 
-/* Logo NAME.PNG — absolute, nằm trên ảnh banner */
+/* Logo NAME.webp — absolute, nằm trên ảnh banner */
 .we-home-hero-logo-wrap {
   position: absolute;
   top: var(--we-home-logo-top);
@@ -216,23 +197,23 @@
   height: min(360px, 46vw);
   background: radial-gradient(
     circle,
-    rgba(167, 139, 250, 0.55) 0%,
-    rgba(124, 58, 237, 0.28) 38%,
-    rgba(91, 33, 182, 0.1) 58%,
+    rgba(167, 139, 250, 0.5) 0%,
+    rgba(124, 58, 237, 0.24) 38%,
+    rgba(91, 33, 182, 0.08) 58%,
     transparent 72%
   );
-  animation: we-logo-aura 3s ease-in-out infinite;
+  opacity: 0.9;
 }
 
 .we-home-hero-logo-wrap::after {
   z-index: 0;
-  width: min(320px, 40vw);
-  height: min(320px, 40vw);
-  border: 1px solid rgba(167, 139, 250, 0.4);
+  width: min(300px, 38vw);
+  height: min(300px, 38vw);
+  border: 1px solid rgba(167, 139, 250, 0.35);
   box-shadow:
-    0 0 24px rgba(124, 58, 237, 0.4),
-    0 0 48px rgba(91, 33, 182, 0.25);
-  animation: we-logo-pulse-ring 2.6s ease-out infinite;
+    0 0 20px rgba(124, 58, 237, 0.35),
+    0 0 40px rgba(91, 33, 182, 0.2);
+  opacity: 0.7;
 }
 
 .we-home-hero-logo {
@@ -243,62 +224,10 @@
   height: auto;
   display: block;
   object-fit: contain;
-  animation: we-logo-glow 3s ease-in-out infinite;
-}
-
-@keyframes we-logo-aura {
-  0%,
-  100% {
-    opacity: 0.65;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-}
-
-@keyframes we-logo-pulse-ring {
-  0% {
-    opacity: 0.75;
-    transform: translate(-50%, -50%) scale(0.88);
-  }
-  70%,
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.38);
-  }
-}
-
-@keyframes we-logo-glow {
-  0%,
-  100% {
-    filter:
-      drop-shadow(0 0 10px rgba(167, 139, 250, 0.55))
-      drop-shadow(0 0 22px rgba(124, 58, 237, 0.4))
-      drop-shadow(0 6px 24px rgba(0, 0, 0, 0.75));
-  }
-  50% {
-    filter:
-      drop-shadow(0 0 18px rgba(196, 181, 253, 0.95))
-      drop-shadow(0 0 36px rgba(124, 58, 237, 0.7))
-      drop-shadow(0 0 56px rgba(91, 33, 182, 0.4))
-      drop-shadow(0 6px 24px rgba(0, 0, 0, 0.75));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .we-home-hero-logo-wrap::before,
-  .we-home-hero-logo-wrap::after,
-  .we-home-hero-logo {
-    animation: none;
-  }
-
-  .we-home-hero-logo {
-    filter:
-      drop-shadow(0 0 14px rgba(167, 139, 250, 0.75))
-      drop-shadow(0 6px 24px rgba(0, 0, 0, 0.75));
-  }
+  /* drop-shadow tĩnh — không animate filter (rất nặng GPU) */
+  filter:
+    drop-shadow(0 0 12px rgba(167, 139, 250, 0.65))
+    drop-shadow(0 6px 20px rgba(0, 0, 0, 0.7));
 }
 
 /* Modal trắng — trên logo và ảnh nền */
@@ -399,8 +328,6 @@
   position: relative;
   z-index: 1000;
   background: var(--we-nav-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   border-bottom: 2px solid var(--we-red);
 }
 
@@ -548,8 +475,6 @@
     margin: 0;
     padding: 4px 0 8px;
     background: rgba(12, 6, 24, 0.96);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
     border-bottom: 1px solid rgba(124, 58, 237, 0.25);
     position: relative;
@@ -1416,9 +1341,7 @@
 }
 
 .we-footer-inner {
-  background: rgba(12, 6, 24, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(12, 6, 24, 0.92);
   border-top: 1px solid rgba(124, 58, 237, 0.25);
   padding: 30px 15px;
 }
