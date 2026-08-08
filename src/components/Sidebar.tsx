@@ -14,6 +14,17 @@ interface PlayerRow {
   level?: number | null;
 }
 
+interface ServerStats {
+  totalAccounts: number;
+  totalCharacters: number;
+  totalGuilds: number;
+  onlinePlayers: number;
+}
+
+function formatStat(n: number): string {
+  return n.toLocaleString('en-US');
+}
+
 /** Tên hiển thị gọn (bỏ ngoặc vuông) */
 function eventDisplayName(name: string): string {
   return name.replace(/[[\]]/g, '').trim();
@@ -74,6 +85,8 @@ export default function Sidebar() {
   const [config, setConfig] = useState<SiteConfig>(siteConfigStatic as unknown as SiteConfig);
   const [topPlayers, setTopPlayers] = useState<PlayerRow[]>([]);
   const [rankLoading, setRankLoading] = useState(true);
+  const [stats, setStats] = useState<ServerStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
   const [events, setEvents] = useState<EventConfig[]>([]);
   const [now, setNow] = useState<Date | null>(null);
 
@@ -88,6 +101,28 @@ export default function Sidebar() {
   useEffect(() => {
     setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const loadStats = () => {
+      fetch('/api/stats')
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.success && data.data) {
+            setStats({
+              totalAccounts: Number(data.data.totalAccounts ?? 0),
+              totalCharacters: Number(data.data.totalCharacters ?? 0),
+              totalGuilds: Number(data.data.totalGuilds ?? 0),
+              onlinePlayers: Number(data.data.onlinePlayers ?? 0),
+            });
+          }
+        })
+        .catch(() => {})
+        .finally(() => setStatsLoading(false));
+    };
+    loadStats();
+    const id = setInterval(loadStats, 60_000);
     return () => clearInterval(id);
   }, []);
 
@@ -166,6 +201,30 @@ export default function Sidebar() {
               <tr>
                 <td>Tỷ lệ rơi đồ</td>
                 <td>{dropRate}</td>
+              </tr>
+              <tr>
+                <td>Tổng số Tài khoản</td>
+                <td className="we-val-orange">
+                  {statsLoading ? '…' : formatStat(stats?.totalAccounts ?? 0)}
+                </td>
+              </tr>
+              <tr>
+                <td>Tổng số Nhân vật</td>
+                <td className="we-val-orange">
+                  {statsLoading ? '…' : formatStat(stats?.totalCharacters ?? 0)}
+                </td>
+              </tr>
+              <tr>
+                <td>Tổng số Guilds</td>
+                <td className="we-val-blue">
+                  {statsLoading ? '…' : formatStat(stats?.totalGuilds ?? 0)}
+                </td>
+              </tr>
+              <tr>
+                <td>Số người Online</td>
+                <td style={{ fontWeight: 700, color: '#16a34a' }}>
+                  {statsLoading ? '…' : formatStat(stats?.onlinePlayers ?? 0)}
+                </td>
               </tr>
             </tbody>
           </table>
