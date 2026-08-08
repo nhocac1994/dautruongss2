@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { getMuClassIcon, getMuClassShort, getMuClassName } from '@/lib/mu-classes';
 
 type ClassIconProps = {
@@ -9,13 +9,14 @@ type ClassIconProps = {
   className?: string;
 };
 
-/** Hiển thị icon class (dw/dk/ef/mg/dl.png). Không có icon thì dùng badge chữ. */
+/** Hiển thị icon class (dw/dk/ef/mg/dl.png). Không có icon / 404 thì dùng badge chữ. */
 export default function ClassIcon({ classId, size = 24, className }: ClassIconProps) {
   const icon = getMuClassIcon(classId);
   const short = getMuClassShort(classId);
   const title = getMuClassName(classId);
+  const [imgFailed, setImgFailed] = useState(false);
 
-  if (icon) {
+  if (icon && !imgFailed) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -27,6 +28,7 @@ export default function ClassIcon({ classId, size = 24, className }: ClassIconPr
         height={size}
         loading="lazy"
         decoding="async"
+        onError={() => setImgFailed(true)}
       />
     );
   }
