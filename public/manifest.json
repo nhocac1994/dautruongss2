@@ -38,9 +38,9 @@
   ],
   "screenshots": [
     {
-      "src": "/panel/muss2.png",
-      "sizes": "1365x768",
-      "type": "image/png",
+      "src": "/panel/muss2.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
       "form_factor": "wide"
     }
   ],

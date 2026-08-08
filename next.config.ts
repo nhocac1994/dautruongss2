@@ -72,6 +72,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Ảnh cũ PNG → WebP (tránh 404 sau khi đổi định dạng)
+  async redirects() {
+    return [
+      { source: '/NAME.PNG', destination: '/NAME.webp', permanent: true },
+      { source: '/panel/muss2.png', destination: '/panel/muss2.webp', permanent: true },
+      { source: '/panel/NAME.PNG', destination: '/NAME.webp', permanent: true },
+    ];
+  },
   // Cache control headers
   async headers() {
     return [
