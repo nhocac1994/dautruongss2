@@ -130,6 +130,39 @@ export default function ConfigEditor({
       </section>
 
       <section className={sectionClass}>
+        <h3 className="text-sm font-bold text-purple-300">Ảo hóa thống kê (số thật + cộng thêm)</h3>
+        <p className="text-xs text-gray-400 -mt-1 mb-1">
+          Ví dụ: DB có 10 tài khoản, cộng thêm 100 → hiển thị 110.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field
+            label="Cộng tài khoản"
+            value={String(form.boostAccounts)}
+            onChange={(v) => set('boostAccounts', Math.max(0, parseInt(v, 10) || 0))}
+            placeholder="0"
+          />
+          <Field
+            label="Cộng nhân vật"
+            value={String(form.boostCharacters)}
+            onChange={(v) => set('boostCharacters', Math.max(0, parseInt(v, 10) || 0))}
+            placeholder="0"
+          />
+          <Field
+            label="Cộng guild"
+            value={String(form.boostGuilds)}
+            onChange={(v) => set('boostGuilds', Math.max(0, parseInt(v, 10) || 0))}
+            placeholder="0"
+          />
+          <Field
+            label="Cộng online"
+            value={String(form.boostOnline)}
+            onChange={(v) => set('boostOnline', Math.max(0, parseInt(v, 10) || 0))}
+            placeholder="0"
+          />
+        </div>
+      </section>
+
+      <section className={sectionClass}>
         <h3 className="text-sm font-bold text-purple-300">Liên hệ</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Số điện thoại" value={form.phone} onChange={(v) => set('phone', v)} />

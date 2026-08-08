@@ -34,6 +34,11 @@ export interface ConfigFormState {
   accountHolder: string;
   bankName: string;
   qrCodeUrl: string;
+  /** Cộng vào số thật DB khi hiển thị sidebar */
+  boostAccounts: number;
+  boostCharacters: number;
+  boostGuilds: number;
+  boostOnline: number;
   events: EventFormItem[];
 }
 
@@ -62,6 +67,10 @@ export const emptyConfigForm = (): ConfigFormState => ({
   accountHolder: '',
   bankName: '',
   qrCodeUrl: '',
+  boostAccounts: 0,
+  boostCharacters: 0,
+  boostGuilds: 0,
+  boostOnline: 0,
   events: [],
 });
 
@@ -71,6 +80,7 @@ export function configToFormState(raw: Record<string, any>): ConfigFormState {
   const dl = raw.downloadLinks ?? {};
   const bank = raw.bankTransfer ?? {};
   const si = raw.serverInfo ?? {};
+  const boost = raw.statsBoost ?? {};
   const events: EventFormItem[] = (raw.events ?? []).map((e: Record<string, unknown>) => {
     const sch = (e.schedule ?? {}) as Record<string, unknown>;
     const type = sch.type === 'specific' ? 'specific' : 'hourly';
@@ -112,6 +122,10 @@ export function configToFormState(raw: Record<string, any>): ConfigFormState {
     accountHolder: String(bank.accountHolder ?? ''),
     bankName: String(bank.bankName ?? ''),
     qrCodeUrl: String(bank.qrCodeUrl ?? ''),
+    boostAccounts: Number(boost.totalAccounts ?? 0) || 0,
+    boostCharacters: Number(boost.totalCharacters ?? 0) || 0,
+    boostGuilds: Number(boost.totalGuilds ?? 0) || 0,
+    boostOnline: Number(boost.onlinePlayers ?? 0) || 0,
     events,
   };
 }
@@ -176,6 +190,12 @@ export function formStateToConfig(form: ConfigFormState): Record<string, unknown
       version: form.serverVersion,
       expRate: form.expRate,
       dropRate: form.dropRate,
+    },
+    statsBoost: {
+      totalAccounts: Math.max(0, Math.floor(Number(form.boostAccounts) || 0)),
+      totalCharacters: Math.max(0, Math.floor(Number(form.boostCharacters) || 0)),
+      totalGuilds: Math.max(0, Math.floor(Number(form.boostGuilds) || 0)),
+      onlinePlayers: Math.max(0, Math.floor(Number(form.boostOnline) || 0)),
     },
   };
 }

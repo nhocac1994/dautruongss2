@@ -152,6 +152,11 @@ export default function Sidebar() {
   const expRate = cfg?.serverInfo?.expRate || 'x100';
   const dropRate = cfg?.serverInfo?.dropRate || '50%';
   const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 2.0';
+  const boost = cfg?.statsBoost ?? {};
+  const displayAccounts = (stats?.totalAccounts ?? 0) + (Number(boost.totalAccounts) || 0);
+  const displayCharacters = (stats?.totalCharacters ?? 0) + (Number(boost.totalCharacters) || 0);
+  const displayGuilds = (stats?.totalGuilds ?? 0) + (Number(boost.totalGuilds) || 0);
+  const displayOnline = (stats?.onlinePlayers ?? 0) + (Number(boost.onlinePlayers) || 0);
 
   return (
     <aside className="we-sidebar-col">
@@ -205,25 +210,25 @@ export default function Sidebar() {
               <tr>
                 <td>Tổng số Tài khoản</td>
                 <td className="we-val-orange">
-                  {statsLoading ? '…' : formatStat(stats?.totalAccounts ?? 0)}
+                  {statsLoading ? '…' : formatStat(displayAccounts)}
                 </td>
               </tr>
               <tr>
                 <td>Tổng số Nhân vật</td>
                 <td className="we-val-orange">
-                  {statsLoading ? '…' : formatStat(stats?.totalCharacters ?? 0)}
+                  {statsLoading ? '…' : formatStat(displayCharacters)}
                 </td>
               </tr>
               <tr>
                 <td>Tổng số Guilds</td>
                 <td className="we-val-blue">
-                  {statsLoading ? '…' : formatStat(stats?.totalGuilds ?? 0)}
+                  {statsLoading ? '…' : formatStat(displayGuilds)}
                 </td>
               </tr>
               <tr>
                 <td>Số người Online</td>
                 <td style={{ fontWeight: 700, color: '#16a34a' }}>
-                  {statsLoading ? '…' : formatStat(stats?.onlinePlayers ?? 0)}
+                  {statsLoading ? '…' : formatStat(displayOnline)}
                 </td>
               </tr>
             </tbody>

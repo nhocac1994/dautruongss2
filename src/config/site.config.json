@@ -55,5 +55,11 @@
     "events": true,
     "reset": true,
     "chaosMix": true
+  },
+  "statsBoost": {
+    "totalAccounts": 0,
+    "totalCharacters": 0,
+    "totalGuilds": 0,
+    "onlinePlayers": 0
   }
 }

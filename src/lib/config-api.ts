@@ -70,6 +70,14 @@ export interface ServerInfo {
   dropRate: string;
 }
 
+/** Cộng thêm vào số thật từ DB (hiển thị = thật + boost) */
+export interface StatsBoost {
+  totalAccounts?: number;
+  totalCharacters?: number;
+  totalGuilds?: number;
+  onlinePlayers?: number;
+}
+
 export interface SiteConfig {
   nameGame?: string;
   gameTitle?: string;
@@ -91,6 +99,7 @@ export interface SiteConfig {
   socialMedia: SocialMedia;
   bankTransfer: BankTransfer;
   serverInfo: ServerInfo;
+  statsBoost?: StatsBoost;
 }
 
 /**

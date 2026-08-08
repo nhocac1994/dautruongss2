@@ -38,6 +38,12 @@ export function getLocalSiteConfig(): Record<string, unknown> {
       expRate: s.expRate ?? 'x100',
       dropRate: s.dropRate ?? 'x50',
     },
+    statsBoost: s.statsBoost ?? {
+      totalAccounts: 0,
+      totalCharacters: 0,
+      totalGuilds: 0,
+      onlinePlayers: 0,
+    },
   };
 }
 
