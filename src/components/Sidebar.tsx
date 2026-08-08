@@ -152,11 +152,11 @@ export default function Sidebar() {
   const expRate = cfg?.serverInfo?.expRate || 'x100';
   const dropRate = cfg?.serverInfo?.dropRate || '50%';
   const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 2.0';
-  const boost = cfg?.statsBoost ?? {};
-  const displayAccounts = (stats?.totalAccounts ?? 0) + (Number(boost.totalAccounts) || 0);
-  const displayCharacters = (stats?.totalCharacters ?? 0) + (Number(boost.totalCharacters) || 0);
-  const displayGuilds = (stats?.totalGuilds ?? 0) + (Number(boost.totalGuilds) || 0);
-  const displayOnline = (stats?.onlinePlayers ?? 0) + (Number(boost.onlinePlayers) || 0);
+  /* /api/stats đã cộng statsBoost từ config backend */
+  const displayAccounts = stats?.totalAccounts ?? 0;
+  const displayCharacters = stats?.totalCharacters ?? 0;
+  const displayGuilds = stats?.totalGuilds ?? 0;
+  const displayOnline = stats?.onlinePlayers ?? 0;
 
   return (
     <aside className="we-sidebar-col">
