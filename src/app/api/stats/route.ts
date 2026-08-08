@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { securityMiddleware } from '@/lib/security-middleware';
 import { getBackendUrl, getBackendBaseUrl } from '@/config/backend.config';
+import { getLocalSiteConfig } from '@/lib/remote-fallback';
 
 export type ServerStats = {
   totalAccounts: number;
@@ -30,40 +31,89 @@ function normalizeStats(raw: Record<string, unknown> | null | undefined): Server
   };
 }
 
-async function fetchStatsFromBackend(): Promise<ServerStats | null> {
-  const urls = [getBackendUrl('/api/stats')];
+function addStats(a: ServerStats, b: ServerStats): ServerStats {
+  return {
+    totalAccounts: a.totalAccounts + b.totalAccounts,
+    totalCharacters: a.totalCharacters + b.totalCharacters,
+    totalGuilds: a.totalGuilds + b.totalGuilds,
+    onlinePlayers: a.onlinePlayers + b.onlinePlayers,
+  };
+}
+
+function backendUrls(path: string): string[] {
+  const urls = [getBackendUrl(path)];
   const isDev = process.env.NODE_ENV === 'development';
   const base = getBackendBaseUrl();
   if (isDev && !base.includes('127.0.0.1') && !base.includes('localhost')) {
-    urls.push('http://127.0.0.1:3001/api/stats');
+    urls.push(`http://127.0.0.1:3001${path}`);
   }
+  return urls;
+}
 
-  for (const url of urls) {
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-      const res = await fetch(url, {
-        signal: controller.signal,
-        headers: { Accept: 'application/json' },
-        cache: 'no-store',
-      });
-      clearTimeout(timer);
-      if (!res.ok) continue;
-      const json = (await res.json()) as {
-        success?: boolean;
-        data?: Record<string, unknown>;
-      };
-      if (json.success && json.data) {
-        return normalizeStats(json.data);
-      }
-    } catch {
-      /* thử URL tiếp */
-    }
+async function fetchJson(url: string): Promise<Record<string, unknown> | null> {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    return (await res.json()) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchBackendStats(): Promise<{
+  data: ServerStats;
+  boosted: boolean;
+  real?: ServerStats;
+  boost?: ServerStats;
+} | null> {
+  for (const url of backendUrls('/api/stats')) {
+    const json = await fetchJson(url);
+    if (!json?.success || !json.data || typeof json.data !== 'object') continue;
+    const meta = (json.meta && typeof json.meta === 'object'
+      ? (json.meta as Record<string, unknown>)
+      : {}) as Record<string, unknown>;
+    return {
+      data: normalizeStats(json.data as Record<string, unknown>),
+      boosted: meta.boosted === true,
+      real: meta.real && typeof meta.real === 'object'
+        ? normalizeStats(meta.real as Record<string, unknown>)
+        : undefined,
+      boost: meta.boost && typeof meta.boost === 'object'
+        ? normalizeStats(meta.boost as Record<string, unknown>)
+        : undefined,
+    };
   }
   return null;
 }
 
-/** Trả số THẬT từ DB — statsBoost cộng ở Sidebar từ /api/remote/config */
+async function fetchConfigBoost(): Promise<ServerStats> {
+  for (const url of backendUrls('/api/config')) {
+    const json = await fetchJson(url);
+    if (!json?.success || !json.data || typeof json.data !== 'object') continue;
+    const data = json.data as Record<string, unknown>;
+    if (data.statsBoost && typeof data.statsBoost === 'object') {
+      return normalizeStats(data.statsBoost as Record<string, unknown>);
+    }
+  }
+  const local = getLocalSiteConfig();
+  if (local.statsBoost && typeof local.statsBoost === 'object') {
+    return normalizeStats(local.statsBoost as Record<string, unknown>);
+  }
+  return emptyStats();
+}
+
+/**
+ * Proxy thống kê.
+ * - Backend mới: đã cộng statsBoost → dùng luôn.
+ * - Backend cũ: chỉ số DB → frontend cộng statsBoost từ /api/config.
+ */
 export async function GET(request: NextRequest) {
   try {
     let securityCheck: Awaited<ReturnType<typeof securityMiddleware>>;
@@ -71,10 +121,12 @@ export async function GET(request: NextRequest) {
       securityCheck = await securityMiddleware(request, '/api/stats');
     } catch (mwErr) {
       console.error('Stats securityMiddleware:', mwErr);
+      const boost = await fetchConfigBoost();
       return NextResponse.json({
         success: true,
-        data: emptyStats(),
-        message: 'Không lấy được thống kê (security).',
+        data: boost,
+        meta: { boosted: true, boost, real: emptyStats() },
+        message: 'Chỉ statsBoost (security).',
       });
     }
     if (securityCheck && !securityCheck.allowed) {
@@ -87,13 +139,40 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const real = (await fetchStatsFromBackend()) ?? emptyStats();
+    const fromBackend = await fetchBackendStats();
+    const configBoost = await fetchConfigBoost();
+
+    if (fromBackend?.boosted) {
+      return NextResponse.json(
+        {
+          success: true,
+          data: fromBackend.data,
+          meta: {
+            real: fromBackend.real ?? emptyStats(),
+            boost: fromBackend.boost ?? configBoost,
+            boosted: true,
+            source: 'backend',
+          },
+          message: 'Thống kê từ backend (đã cộng statsBoost).',
+        },
+        { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
+      );
+    }
+
+    const real = fromBackend?.data ?? emptyStats();
+    const data = addStats(real, configBoost);
 
     return NextResponse.json(
       {
         success: true,
-        data: real,
-        message: 'Thống kê thật từ database (boost cộng ở frontend).',
+        data,
+        meta: {
+          real,
+          boost: configBoost,
+          boosted: true,
+          source: fromBackend ? 'frontend-boost' : 'boost-only',
+        },
+        message: 'Thống kê = số thật + statsBoost config.',
       },
       { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
     );
