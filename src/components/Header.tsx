@@ -73,7 +73,7 @@ export default function Header() {
     <header className={`we-nav${isMobileNav ? ' we-nav--mobile' : ''}`}>
       <div className="we-nav-bar">
         <Link href="/" className="we-nav-brand" onClick={() => setMenuOpen(false)}>
-          MU SEASON2
+          MUDAUTRUONGSS1.NET
         </Link>
         {isMobileNav && (
           <button

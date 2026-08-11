@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import SubPageLayout from '@/components/SubPageLayout';
-import Footer from '@/components/Footer';
 import SimpleCaptcha from '@/components/SimpleCaptcha';
 import { cardShell, cardBody, inputModern, labelModern, btnPrimaryClass, linkAccent } from '@/lib/page-theme';
 
@@ -50,7 +49,7 @@ export default function LoginPage() {
 
   return (
     <div className="we-page">
-      <SubPageLayout breadcrumbs={[{ label: 'Đăng Nhập' }]} title="Đăng Nhập">
+      <SubPageLayout title="Đăng Nhập">
         <div className={cardShell}>
           <div className={cardBody}>
             <form onSubmit={handleSubmit}>
@@ -91,13 +90,12 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <p style={{ marginTop: 20, textAlign: 'center', fontSize: 13, color: '#777' }}>
+            <p style={{ marginTop: 20, textAlign: 'center', fontSize: 13, color: 'var(--ns-text-muted)' }}>
               Chưa có tài khoản? <Link href="/register" className={linkAccent}>Đăng ký ngay</Link>
             </p>
           </div>
         </div>
       </SubPageLayout>
-      <Footer />
     </div>
   );
 }

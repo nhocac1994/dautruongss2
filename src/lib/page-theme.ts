@@ -1,29 +1,24 @@
-/** WebEngine theme — dùng chung các trang */
+/** Theme form — New Season 1 (xám tối + tím) */
 
-export const cardShell = 'we-box';
-export const cardHead = 'we-box-head';
-export const cardBody = 'we-box-body';
+export const cardShell = 'ns-form-card';
+export const cardHead = 'ns-form-head';
+export const cardBody = 'ns-form-body';
 export const stackGap = 'flex flex-col gap-4';
 export const gridGap = 'grid gap-4';
 
-export const inputModern = 'we-input';
-export const labelModern = 'block text-sm font-semibold text-gray-700 mb-1';
+export const inputModern = 'ns-input';
+export const labelModern = 'ns-label';
 
-export const sectionTitleModern = 'we-page-title';
+export const sectionTitleModern = 'ns-home-title';
 
-export const btnPrimaryClass = 'we-btn we-btn-block';
+export const btnPrimaryClass = 'ns-btn';
 export const btnPrimaryStyle = {} as const;
 
-export const linkAccent = 'text-purple-700 font-semibold hover:underline';
+export const linkAccent = 'ns-link';
 
-export const accentText = 'text-purple-700';
+export const accentText = 'ns-link';
 
 export function newsBadgeClass(type: string): string {
-  const colors: Record<string, string> = {
-    Notice: 'bg-blue-600',
-    Event: 'bg-orange-600',
-    Update: 'bg-purple-600',
-    Hot: 'bg-red-600',
-  };
-  return `inline-block rounded px-2 py-0.5 text-[10px] font-bold uppercase text-white ${colors[type] || 'bg-gray-600'}`;
+  return `ns-badge t-${(type || 'notice').toLowerCase()}`;
 }
+

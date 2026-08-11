@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/styles/webengine.css";
+import "@/styles/season-shell.css";
 import SecurityGuard from "@/components/SecurityGuard";
-import Header from "@/components/Header";
-import AmbientGlow from "@/components/AmbientGlow";
+import SeasonShell from "@/components/SeasonShell";
 import { fontBody, fontDisplay } from "./fonts";
 
 import { getSiteConfig } from '@/lib/config';
@@ -89,7 +89,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#7c3aed',
+  themeColor: '#1c1c22',
   viewportFit: 'cover',
 };
 
@@ -108,8 +108,8 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="192x192" href="/web-app-manifest-192x192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/web-app-manifest-512x512.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#7c3aed" />
-        <meta name="msapplication-TileColor" content="#7c3aed" />
+        <meta name="theme-color" content="#1c1c22" />
+        <meta name="msapplication-TileColor" content="#1c1c22" />
         <meta name="msapplication-TileImage" content="/apple-touch-icon.png" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -128,9 +128,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <SecurityGuard />
-        <AmbientGlow />
-        <Header />
-        <main className="we-site-canvas">{children}</main>
+        <SeasonShell>{children}</SeasonShell>
       </body>
     </html>
   );

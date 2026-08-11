@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import SubPageLayout from '@/components/SubPageLayout';
-import Footer from '@/components/Footer';
 import { getNewsArticle, formatNewsDateLong } from '@/lib/news-api';
 import { renderArticleContent } from '@/lib/simple-markdown';
 
@@ -63,7 +62,6 @@ export default function NewsArticlePage() {
           </article>
         )}
       </SubPageLayout>
-      <Footer />
     </div>
   );
 }

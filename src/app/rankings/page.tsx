@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
-import Footer from '@/components/Footer';
 import RankingTable from '@/components/RankingTable';
 import GuildRankingTable from '@/components/GuildRankingTable';
 import { RANKING_TAB_ROWS, getRankingTab, type RankingTabId } from '@/lib/rankings-config';
@@ -14,7 +13,7 @@ export default function RankingsPage() {
 
   return (
     <div className="we-page">
-      <SubPageLayout breadcrumbs={[{ label: 'Xếp Hạng' }]} title="TOP Rankings" showSidebar={false}>
+      <SubPageLayout title="Xếp hạng">
         <div className="we-box">
           <div className="we-box-body">
             <div className="we-rank-tabs">
@@ -48,7 +47,6 @@ export default function RankingsPage() {
           </div>
         </div>
       </SubPageLayout>
-      <Footer />
     </div>
   );
 }

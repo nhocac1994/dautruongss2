@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SubPageLayout from '@/components/SubPageLayout';
-import Footer from '@/components/Footer';
 import {
   getNewsList,
   newsArticleLink,
@@ -52,7 +51,6 @@ export default function GuidePage() {
           </Link>
         ))}
       </SubPageLayout>
-      <Footer />
     </div>
   );
 }

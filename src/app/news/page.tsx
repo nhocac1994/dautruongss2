@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SubPageLayout from '@/components/SubPageLayout';
-import Footer from '@/components/Footer';
 import NewsSearchBar, { matchNews } from '@/components/NewsSearchBar';
 import {
   getNewsList,
@@ -13,7 +12,7 @@ import {
 } from '@/lib/news-api';
 
 const FALLBACK_NEWS = [
-  { type: 'Notice', title: 'Hướng dẫn chơi — Season 2.0', date: '2026-04-15', link: '/news/guide', slug: 'guide', excerpt: 'Hướng dẫn Season 2.0 bản chuẩn — không hạ cấp.' },
+  { type: 'Notice', title: 'Hướng dẫn chơi — Season 1.0', date: '2026-04-15', link: '/news/guide', slug: 'guide', excerpt: 'Hướng dẫn Season 1.0 bản chuẩn — không hạ cấp.' },
   { type: 'Event', title: 'Các sự kiện trong game', date: '2026-04-15', link: '/news/events', slug: 'events', excerpt: 'Double EXP và sự kiện đặc biệt.' },
   { type: 'Update', title: 'Lộ trình phát triển server', date: '2026-04-15', link: '/news/roadmap', slug: 'roadmap', excerpt: 'Kế hoạch phát triển server.' },
   { type: 'Notice', title: 'Thông báo mở server', date: '2026-04-15', link: '/news/opening', slug: 'opening', excerpt: 'Thông báo mở cửa server.' },
@@ -108,7 +107,6 @@ export default function NewsPage() {
           </>
         )}
       </SubPageLayout>
-      <Footer />
     </div>
   );
 }

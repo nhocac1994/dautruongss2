@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
-import Footer from '@/components/Footer';
 import siteConfigStatic from '@/config/site.config.json';
 import { getSiteConfig, getDownloadConfig, type SiteConfig, type DownloadLinks } from '@/lib/config-api';
+
+const VC_REDIST_URL = 'https://aka.ms/vs/17/release/vc_redist.x64.exe';
 
 export default function DownloadPage() {
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(siteConfigStatic as unknown as SiteConfig);
@@ -17,67 +18,31 @@ export default function DownloadPage() {
 
   const config = siteConfig;
   const links = downloadLinks || config?.downloadLinks;
-  const clientVersion = links?.clientVersion || 'Season 2.0';
-  const serverName = config?.serverName || config?.nameGame || 'SEASON2';
+  const clientVersion = links?.clientVersion || 'Season 1.0';
+  const serverName = config?.serverName || config?.nameGame || 'MUDAUTRUONGSS1.NET';
   const displayName = serverName.replace(/\.(net|com|vn|org)$/i, '');
-
-  const downloads = [
-    {
-      title: `Bản cài đặt Full ${displayName} ${clientVersion}`,
-      subtitle: `Client ${displayName}`,
-      size: '397 MB',
-      href: links?.mediafire || '#',
-    },
-    {
-      title: 'Phần mềm hỗ trợ UltraViewer',
-      subtitle: 'Hỗ trợ cài đặt game',
-      size: '4 MB',
-      href: 'https://www.ultraviewer.net/vi/download.html',
-    },
-    {
-      title: 'Phần mềm hỗ trợ giải nén file',
-      subtitle: 'WinRAR / 7-Zip',
-      size: '4 MB',
-      href: 'https://www.7-zip.org/download.html',
-    },
-  ];
 
   return (
     <div className="we-page">
-      <SubPageLayout breadcrumbs={[{ label: 'Tải Game' }]} title="Tải Game">
+      <SubPageLayout title="Tải Game">
         <div className="we-box">
           <div className="we-box-head">Bản cài đặt Game</div>
           <div className="we-box-body" style={{ padding: 0 }}>
-            {downloads.slice(0, 1).map((item, i) => (
-              <div key={i} className="we-download-row">
-                <div className="we-download-info">
-                  <h4>{item.title}</h4>
-                  <p>{item.subtitle}</p>
-                </div>
-                <span className="we-download-size">{item.size}</span>
-                <a href={item.href} target="_blank" rel="noopener noreferrer" className="we-btn we-btn-download">
-                  Tải về
-                </a>
+            <div className="we-download-row">
+              <div className="we-download-info">
+                <h4>Bản cài đặt Full {displayName} {clientVersion}</h4>
+                <p>Client {displayName}</p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="we-box">
-          <div className="we-box-head">Phần mềm hỗ trợ</div>
-          <div className="we-box-body" style={{ padding: 0 }}>
-            {downloads.slice(1).map((item, i) => (
-              <div key={i} className="we-download-row">
-                <div className="we-download-info">
-                  <h4>{item.title}</h4>
-                  <p>{item.subtitle}</p>
-                </div>
-                <span className="we-download-size">{item.size}</span>
-                <a href={item.href} target="_blank" rel="noopener noreferrer" className="we-btn we-btn-download">
-                  Tải về
-                </a>
-              </div>
-            ))}
+              <span className="we-download-size">397 MB</span>
+              <a
+                href={links?.mediafire || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="we-btn we-btn-download"
+              >
+                Tải về
+              </a>
+            </div>
           </div>
         </div>
 
@@ -98,33 +63,26 @@ export default function DownloadPage() {
           </div>
         )}
 
-        <div className="we-box we-provider-box">
-          <div className="we-box-head">Nhà cung cấp File Game</div>
-          <div className="we-box-body">
-            <p className="we-provider-text">
-              File client Mu Online được cung cấp bởi{' '}
+        <div className="we-box">
+          <div className="we-box-head">Thư viện hỗ trợ</div>
+          <div className="we-box-body" style={{ padding: 0 }}>
+            <div className="we-download-row">
+              <div className="we-download-info">
+                <h4>Microsoft Visual C++ 2015–2022</h4>
+                <p>Cài nếu thiếu thư viện C++ khi mở game (x64)</p>
+              </div>
               <a
-                href="https://www.mumges.org/"
+                href={VC_REDIST_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="we-provider-link"
+                className="we-btn we-btn-download"
               >
-                MUMGES.org
+                Tải về
               </a>
-              {' '}— file server chuẩn.
-            </p>
-            <a
-              href="https://www.mumges.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="we-btn we-btn-download"
-            >
-              Truy cập mumges.org
-            </a>
+            </div>
           </div>
         </div>
       </SubPageLayout>
-      <Footer />
     </div>
   );
 }

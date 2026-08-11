@@ -62,7 +62,7 @@ export default function Info() {
       maxWidth="1240"
       breadcrumbs={[{ label: 'Thông tin server' }]}
       title="Thông tin server"
-      subtitle={`${currentConfig?.serverName || 'SEASON2'} — ${currentConfig?.gameTitle || 'Mu Online Season 2.0'} (bản chuẩn, không hạ cấp). Thông tin chi tiết về server và các tính năng nổi bật.`}
+      subtitle={`${currentConfig?.serverName || 'MUDAUTRUONGSS1.NET'} — ${currentConfig?.gameTitle || 'Mu Online Season 1.0'} (bản chuẩn, không hạ cấp). Thông tin chi tiết về server và các tính năng nổi bật.`}
     >
 
       {/* Server Info */}
@@ -106,7 +106,7 @@ export default function Info() {
                       <div className="w-2 h-2 sm:w-3 sm:h-3 bg-[#FFA500] rounded-full animate-pulse flex-shrink-0" style={{animationDelay: '1.5s', boxShadow: '0 0 6px rgba(255, 165, 0, 0.6)' }}></div>
                       <span className="text-gray-300 text-xs sm:text-base">Version:</span>
                     </div>
-                    <span className="mu-text-orange font-bold text-lg sm:text-2xl">{currentConfig?.serverVersion || 'Season 2.0'}</span>
+                    <span className="mu-text-orange font-bold text-lg sm:text-2xl">{currentConfig?.serverVersion || 'Season 1.0'}</span>
                   </div>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ export default function Info() {
                       <div className="w-2 h-2 sm:w-3 sm:h-3 bg-[#FFD700] rounded-full animate-pulse flex-shrink-0" style={{ boxShadow: '0 0 6px rgba(255, 215, 0, 0.6)' }}></div>
                       <span className="text-gray-300 text-xs sm:text-base">Exp Rate:</span>
                     </div>
-                    <span className="mu-text-orange font-bold text-lg sm:text-2xl">{currentConfig?.serverVersion || 'Season 2.0'}</span>
+                    <span className="mu-text-orange font-bold text-lg sm:text-2xl">{currentConfig?.serverVersion || 'Season 1.0'}</span>
                   </div>
                   <div className="flex justify-between items-center py-3 sm:py-5 px-2 sm:px-4" style={{ backgroundColor: 'transparent' }}>
                     <div className="flex items-center gap-2 sm:gap-3">
@@ -281,7 +281,7 @@ export default function Info() {
               Tính năng nổi bật
             </h2>
             <p className="text-sm sm:text-xl text-gray-300 max-w-2xl mx-auto">
-              Khám phá những tính năng độc đáo và hấp dẫn của server {currentConfig?.serverName || 'SEASON2'}
+              Khám phá những tính năng độc đáo và hấp dẫn của server {currentConfig?.serverName || 'MUDAUTRUONGSS1.NET'}
             </p>
           </div>
           

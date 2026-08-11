@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import TwoColumnLayout from '@/components/TwoColumnLayout';
 
 export type BreadcrumbItem = {
   label: string;
@@ -22,36 +21,33 @@ export default function SubPageLayout({
   title,
   subtitle,
   children,
-  showSidebar = true,
 }: SubPageLayoutProps) {
   return (
-    <div className="we-subpage">
-      <TwoColumnLayout showSidebar={showSidebar}>
-        <div>
-          {breadcrumbs && breadcrumbs.length > 0 && (
-            <nav style={{ fontSize: 12, color: '#888', marginBottom: 10 }} aria-label="Breadcrumb">
-              <Link href="/" style={{ color: '#888', textDecoration: 'none' }}>Trang chủ</Link>
-              {breadcrumbs.map((item, i) => (
-                <span key={`${item.label}-${i}`}>
-                  {' / '}
-                  {item.href ? (
-                    <Link href={item.href} style={{ color: '#888', textDecoration: 'none' }}>
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <span style={{ color: '#555' }}>{item.label}</span>
-                  )}
-                </span>
-              ))}
-            </nav>
-          )}
+    <div className="ns-subpage">
+      {breadcrumbs && breadcrumbs.length > 0 && (
+        <nav className="ns-home-kicker" style={{ marginBottom: 12 }} aria-label="Breadcrumb">
+          <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+            Bản tin
+          </Link>
+          {breadcrumbs.map((item, i) => (
+            <span key={`${item.label}-${i}`}>
+              {' / '}
+              {item.href ? (
+                <Link href={item.href} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {item.label}
+                </Link>
+              ) : (
+                <span style={{ color: 'var(--ns-text-muted)' }}>{item.label}</span>
+              )}
+            </span>
+          ))}
+        </nav>
+      )}
 
-          {title && <h1 className="we-page-title">{title}</h1>}
-          {subtitle && <p style={{ fontSize: 13, color: '#777', marginBottom: 15 }}>{subtitle}</p>}
+      {title && <h1 className="ns-home-title" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 8 }}>{title}</h1>}
+      {subtitle && <p className="ns-home-desc" style={{ marginBottom: 24 }}>{subtitle}</p>}
 
-          {children}
-        </div>
-      </TwoColumnLayout>
+      {children}
     </div>
   );
 }

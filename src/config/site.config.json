@@ -1,33 +1,33 @@
 {
-  "nameGame": "SEASON2",
-  "gameTitle": "Mu Online Season 2.0",
-  "gameSubtitle": "Bản chuẩn Season 2.0 — Không hạ cấp",
-  "serverName": "SEASON2",
-  "serverVersion": "Season 2.0",
+  "nameGame": "MUDAUTRUONGSS1.NET",
+  "gameTitle": "Mu Online Season 1.0",
+  "gameSubtitle": "Bản chuẩn Season 1.0 — Không hạ cấp",
+  "serverName": "MUDAUTRUONGSS1.NET",
+  "serverVersion": "Season 1.0",
   "serverIP": "your-server-ip",
   "serverPort": "55900",
-  "linkFacebook": "https://facebook.com/MuHnss1.com",
-  "linkDiscord": "https://discord.gg/MuHnss1.com",
-  "linkYoutube": "https://youtube.com/@MuHnss1.com",
-  "linkZalo": "https://zalo.me/Mu-hnss1.com",
-  "linkTikTok": "https://www.tiktok.com/@MuHnss1.com",
-  "email": "support@season2.com",
+  "linkFacebook": "https://facebook.com/mudautruongss1.net",
+  "linkDiscord": "https://discord.gg/mudautruongss1",
+  "linkYoutube": "https://youtube.com/@mudautruongss1",
+  "linkZalo": "https://zalo.me/mudautruongss1",
+  "linkTikTok": "https://www.tiktok.com/@mudautruongss1",
+  "email": "support@mudautruongss1.net",
   "phone": "033.77.44.456",
   "address": "Việt Nam",
-  "websiteUrl": "https://MuHnss1.com",
-  "websiteName": "SEASON2",
-  "expRate": "100x",
-  "dropRate": "99%",
+  "websiteUrl": "https://mudautruongss1.net",
+  "websiteName": "MUDAUTRUONGSS1.NET",
+  "expRate": "x50",
+  "dropRate": "90%",
   "resetLevel": 400,
   "maxReset": 999,
   "eventStartDate": "2025-10-10",
   "eventStartTime": "13:00",
-  "metaDescription": "SEASON2 - Server Mu Online Season 2.0 bản chuẩn, không hạ cấp. Exp cao, drop tốt, PvP, Guild, Events đặc biệt.",
+  "metaDescription": "MUDAUTRUONGSS1.NET - Server Mu Online Season 1.0 bản chuẩn, không hạ cấp. Exp cao, drop tốt, PvP, Guild, Events đặc biệt.",
   "metaKeywords": [
     "Mu Online",
-    "Mu Online Season 2.0",
-    "SEASON2",
-    "Season 2.0 bản chuẩn",
+    "Mu Online Season 1.0",
+    "MUDAUTRUONGSS1.NET",
+    "Season 1.0 bản chuẩn",
     "Mu Online không hạ cấp",
     "Server Mu Online",
     "Game Mu Online Việt Nam"
@@ -41,7 +41,7 @@
   "downloadLinks": {
     "mediafire": "https://www.mediafire.com",
     "mega": "https://mega.nz",
-    "clientVersion": "Season 2.0"
+    "clientVersion": "Season 1.0"
   },
   "bankTransfer": {
     "accountNumber": "03566730165",
@@ -61,5 +61,11 @@
     "totalCharacters": 0,
     "totalGuilds": 0,
     "onlinePlayers": 0
+  },
+  "serverInfo": {
+    "name": "MUDAUTRUONGSS1.NET",
+    "version": "Season 1.0",
+    "expRate": "x50",
+    "dropRate": "90%"
   }
 }

@@ -153,7 +153,7 @@ export default function Sidebar() {
   const tiktokLink = cfg?.linkTikTok || cfg?.socialMedia?.tiktok || '';
   const expRate = cfg?.serverInfo?.expRate || 'x100';
   const dropRate = cfg?.serverInfo?.dropRate || '50%';
-  const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 2.0';
+  const version = cfg?.serverInfo?.version || cfg?.serverVersion || 'Season 1.0';
   /* /api/stats đã cộng statsBoost (backend mới hoặc proxy frontend) */
   const displayAccounts = stats?.totalAccounts ?? 0;
   const displayCharacters = stats?.totalCharacters ?? 0;

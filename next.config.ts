@@ -57,6 +57,10 @@ const resolvedPublicBackendUrl = sanitizeBackendUrl(
 process.env.NEXT_PUBLIC_BACKEND_API_URL = resolvedPublicBackendUrl;
 
 const nextConfig: NextConfig = {
+  // Tránh Turbopack lấy nhầm root project cha → cache CSS/layout cũ
+  turbopack: {
+    root: __dirname,
+  },
   env: {
     NEXT_PUBLIC_BACKEND_API_URL: resolvedPublicBackendUrl,
   },
