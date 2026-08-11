@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SubPageLayout from '@/components/SubPageLayout';
@@ -220,7 +221,12 @@ export default function Dashboard() {
   const [charactersLoading, setCharactersLoading] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
 
   const getClassName = (classId: number): string => getMuClassName(classId);
 
@@ -545,69 +551,89 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {showPasswordModal && (
-        <div
-          className="we-dash-modal-backdrop"
-          role="presentation"
-          onClick={() => setShowPasswordModal(false)}
-        >
+      {portalReady &&
+        showPasswordModal &&
+        createPortal(
           <div
-            className="we-dash-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="dash-password-title"
-            onClick={(e) => e.stopPropagation()}
+            className="we-dash-modal-backdrop"
+            role="presentation"
+            onClick={() => setShowPasswordModal(false)}
           >
-            <h3 id="dash-password-title">Đổi mật khẩu</h3>
-            <div className="we-dash-modal-fields">
-              <div>
-                <label className={labelModern} htmlFor="currentPassword">
-                  Mật khẩu hiện tại
-                </label>
-                <input type="password" id="currentPassword" className={inputModern} autoComplete="current-password" />
-              </div>
-              <div>
-                <label className={labelModern} htmlFor="newPassword">
-                  Mật khẩu mới
-                </label>
-                <input type="password" id="newPassword" className={inputModern} autoComplete="new-password" />
-              </div>
-              <div>
-                <label className={labelModern} htmlFor="confirmPassword">
-                  Xác nhận mật khẩu mới
-                </label>
-                <input type="password" id="confirmPassword" className={inputModern} autoComplete="new-password" />
-              </div>
-              <div className="we-dash-modal-actions">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const currentPassword = (document.getElementById('currentPassword') as HTMLInputElement)?.value;
-                    const newPassword = (document.getElementById('newPassword') as HTMLInputElement)?.value;
-                    const confirmPassword = (document.getElementById('confirmPassword') as HTMLInputElement)?.value;
-                    if (newPassword !== confirmPassword) {
-                      alert('Mật khẩu xác nhận không khớp!');
-                      return;
-                    }
-                    handleChangePassword({ currentPassword, newPassword });
-                  }}
-                  disabled={updateLoading}
-                  className={btnPrimaryClass}
-                >
-                  {updateLoading ? 'Đang đổi...' : 'Đổi mật khẩu'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowPasswordModal(false)}
-                  className="we-btn we-btn--ghost"
-                >
-                  Hủy
-                </button>
+            <div
+              className="we-dash-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="dash-password-title"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 id="dash-password-title">Đổi mật khẩu</h3>
+              <div className="we-dash-modal-fields">
+                <div>
+                  <label className={labelModern} htmlFor="currentPassword">
+                    Mật khẩu hiện tại
+                  </label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    className={inputModern}
+                    autoComplete="current-password"
+                  />
+                </div>
+                <div>
+                  <label className={labelModern} htmlFor="newPassword">
+                    Mật khẩu mới
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    className={inputModern}
+                    autoComplete="new-password"
+                  />
+                </div>
+                <div>
+                  <label className={labelModern} htmlFor="confirmPassword">
+                    Xác nhận mật khẩu mới
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    className={inputModern}
+                    autoComplete="new-password"
+                  />
+                </div>
+                <div className="we-dash-modal-actions">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const currentPassword = (document.getElementById('currentPassword') as HTMLInputElement)
+                        ?.value;
+                      const newPassword = (document.getElementById('newPassword') as HTMLInputElement)?.value;
+                      const confirmPassword = (document.getElementById('confirmPassword') as HTMLInputElement)
+                        ?.value;
+                      if (newPassword !== confirmPassword) {
+                        alert('Mật khẩu xác nhận không khớp!');
+                        return;
+                      }
+                      handleChangePassword({ currentPassword, newPassword });
+                    }}
+                    disabled={updateLoading}
+                    className={btnPrimaryClass}
+                  >
+                    {updateLoading ? 'Đang đổi...' : 'Đổi mật khẩu'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowPasswordModal(false)}
+                    className="we-btn we-btn--ghost"
+                  >
+                    Hủy
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </SubPageLayout>
   );
 }

@@ -100,10 +100,14 @@ body {
   z-index: 60;
 }
 
-.ns-shell > .ns-main,
+.ns-shell > .ns-main {
+  position: relative;
+  z-index: 2;
+}
+
 .ns-shell > .ns-footer {
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* ── Header ── */
@@ -1045,7 +1049,7 @@ body {
 }
 
 .ns-shell .we-dash-modal-backdrop {
-  z-index: 200;
+  z-index: 9999;
   background: rgba(6, 4, 12, 0.72);
   backdrop-filter: blur(4px);
 }
@@ -1056,6 +1060,8 @@ body {
   border-radius: var(--ns-radius) !important;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55) !important;
   color: var(--ns-text) !important;
+  max-height: min(90vh, 640px);
+  overflow-y: auto;
 }
 
 .ns-shell .we-dash-modal h3 {

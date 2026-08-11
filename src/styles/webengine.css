@@ -1714,13 +1714,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
+  z-index: 9999;
   padding: 16px;
 }
 
 .we-dash-modal {
   width: 100%;
   max-width: 420px;
+  max-height: min(90vh, 640px);
+  overflow-y: auto;
   background: rgba(18, 15, 26, 0.98);
   border: 1px solid rgba(168, 140, 210, 0.28);
   border-radius: 14px;
@@ -1756,4 +1758,26 @@
   width: auto !important;
   flex: 1;
   margin-top: 0 !important;
+}
+
+.we-dash-modal-actions .we-btn--ghost,
+.we-dash-toolbar-actions .we-btn--ghost {
+  background: rgba(28, 28, 34, 0.9) !important;
+  border: 1px solid rgba(168, 140, 210, 0.28) !important;
+  color: #c8c2d6 !important;
+}
+
+.we-dash-modal .ns-label {
+  color: #9a96a8;
+}
+
+.we-dash-modal .ns-input,
+.we-dash-modal input {
+  background: rgba(14, 14, 18, 0.85);
+  border: 1px solid rgba(168, 140, 210, 0.22);
+  color: #e8e6ed;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 14px;
 }
