@@ -1709,35 +1709,51 @@
 .we-dash-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(6, 4, 12, 0.72);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 200;
   padding: 16px;
 }
 
 .we-dash-modal {
   width: 100%;
   max-width: 420px;
-  background: #fff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  background: rgba(18, 15, 26, 0.98);
+  border: 1px solid rgba(168, 140, 210, 0.28);
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
   padding: 18px 20px;
+  color: #e8e6ed;
 }
 
 .we-dash-modal h3 {
   margin: 0 0 14px;
   font-size: 15px;
   font-weight: 700;
-  color: var(--we-red);
+  color: #b49ae0;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.we-dash-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .we-dash-modal-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.we-dash-modal-actions .ns-btn,
+.we-dash-modal-actions .we-btn {
+  width: auto !important;
+  flex: 1;
+  margin-top: 0 !important;
 }

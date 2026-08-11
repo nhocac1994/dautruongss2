@@ -988,6 +988,123 @@ body {
   background: rgba(28, 28, 34, 0.7) !important;
 }
 
+/* Dashboard — đồng bộ theme tối */
+.ns-shell .we-dash-toolbar {
+  margin-bottom: 0;
+}
+
+.ns-shell .we-box.we-dash-toolbar {
+  margin-bottom: 16px;
+}
+
+.ns-shell .we-dash-row {
+  border-bottom-color: var(--ns-border) !important;
+}
+
+.ns-shell .we-dash-label {
+  color: var(--ns-text-muted) !important;
+}
+
+.ns-shell .we-dash-value {
+  color: var(--ns-text) !important;
+}
+
+.ns-shell .we-dash-value--accent {
+  color: var(--ns-purple-soft) !important;
+}
+
+.ns-shell .we-dash-value--ok {
+  color: #7dcea0 !important;
+}
+
+.ns-shell .we-dash-value--bad {
+  color: #c9a0e8 !important;
+}
+
+.ns-shell .we-dash-badge {
+  color: #f4f0fa !important;
+  background: rgba(155, 126, 207, 0.35) !important;
+}
+
+.ns-shell .we-dash-progress {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.ns-shell .we-dash-progress--exp > span {
+  background: linear-gradient(90deg, #6b4fa0, #9b7ecf) !important;
+}
+
+.ns-shell .we-dash-char-select label {
+  color: var(--ns-text-muted) !important;
+}
+
+.ns-shell .we-dash-warn {
+  font-size: 13px;
+  color: #e8b86d;
+  margin: 0;
+}
+
+.ns-shell .we-dash-modal-backdrop {
+  z-index: 200;
+  background: rgba(6, 4, 12, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.ns-shell .we-dash-modal {
+  background: rgba(18, 15, 26, 0.96) !important;
+  border: 1px solid var(--ns-border-strong) !important;
+  border-radius: var(--ns-radius) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55) !important;
+  color: var(--ns-text) !important;
+}
+
+.ns-shell .we-dash-modal h3 {
+  color: var(--ns-purple-soft) !important;
+  letter-spacing: 0.04em;
+}
+
+.ns-shell .we-dash-modal .we-dash-label,
+.ns-shell .we-dash-modal .ns-label {
+  color: var(--ns-text-muted) !important;
+}
+
+.ns-shell .we-dash-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ns-shell .we-dash-modal-actions .ns-btn,
+.ns-shell .we-dash-modal-actions .we-btn {
+  width: auto !important;
+  flex: 1;
+  margin-top: 0 !important;
+}
+
+.ns-shell .we-dash-modal-actions .we-btn--ghost {
+  background: rgba(28, 28, 34, 0.9) !important;
+  border-color: var(--ns-border) !important;
+  color: var(--ns-text-muted) !important;
+}
+
+.ns-shell .we-dash-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ns-shell .we-dash-toolbar-actions .we-btn {
+  padding: 8px 14px !important;
+  width: auto !important;
+  margin-top: 0 !important;
+}
+
+.ns-shell .we-dash-toolbar-actions .we-btn--ghost {
+  background: rgba(28, 28, 34, 0.85) !important;
+  border-color: rgba(201, 160, 232, 0.35) !important;
+  color: #d7c6ef !important;
+}
+
 @keyframes ns-fade-up {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }

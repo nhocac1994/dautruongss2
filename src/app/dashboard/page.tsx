@@ -8,6 +8,7 @@ import ClassIcon from '@/components/ClassIcon';
 import { getMuClassName } from '@/lib/mu-classes';
 import {
   inputModern,
+  labelModern,
   btnPrimaryClass,
 } from '@/lib/page-theme';
 
@@ -437,28 +438,18 @@ export default function Dashboard() {
                 </select>
               </div>
             ) : (
-              <p style={{ fontSize: 13, color: '#b45309', margin: 0 }}>
+              <p className="we-dash-warn">
                 Chưa tải được danh sách nhân vật. Thử đăng xuất và đăng nhập lại.
               </p>
             )}
             <div className="we-dash-toolbar-actions">
-              <Link href="/myaccount" className="we-btn" style={{ padding: '8px 14px' }}>
+              <Link href="/myaccount" className="we-btn">
                 Thông tin tài khoản
               </Link>
-              <button
-                type="button"
-                onClick={() => setShowPasswordModal(true)}
-                className="we-btn"
-                style={{ padding: '8px 14px' }}
-              >
+              <button type="button" onClick={() => setShowPasswordModal(true)} className="we-btn">
                 Đổi mật khẩu
               </button>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="we-btn"
-                style={{ padding: '8px 14px', borderColor: 'var(--we-red)', color: 'var(--we-red)' }}
-              >
+              <button type="button" onClick={handleLogout} className="we-btn we-btn--ghost">
                 Đăng xuất
               </button>
             </div>
@@ -555,27 +546,37 @@ export default function Dashboard() {
       </div>
 
       {showPasswordModal && (
-        <div className="we-dash-modal-backdrop">
-          <div className="we-dash-modal">
-            <h3>Đổi mật khẩu</h3>
-            <div className="space-y-3">
+        <div
+          className="we-dash-modal-backdrop"
+          role="presentation"
+          onClick={() => setShowPasswordModal(false)}
+        >
+          <div
+            className="we-dash-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="dash-password-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 id="dash-password-title">Đổi mật khẩu</h3>
+            <div className="we-dash-modal-fields">
               <div>
-                <label className="we-dash-label" style={{ display: 'block', marginBottom: 6 }}>
+                <label className={labelModern} htmlFor="currentPassword">
                   Mật khẩu hiện tại
                 </label>
-                <input type="password" id="currentPassword" className={inputModern} style={{ marginBottom: 0 }} />
+                <input type="password" id="currentPassword" className={inputModern} autoComplete="current-password" />
               </div>
               <div>
-                <label className="we-dash-label" style={{ display: 'block', marginBottom: 6 }}>
+                <label className={labelModern} htmlFor="newPassword">
                   Mật khẩu mới
                 </label>
-                <input type="password" id="newPassword" className={inputModern} style={{ marginBottom: 0 }} />
+                <input type="password" id="newPassword" className={inputModern} autoComplete="new-password" />
               </div>
               <div>
-                <label className="we-dash-label" style={{ display: 'block', marginBottom: 6 }}>
+                <label className={labelModern} htmlFor="confirmPassword">
                   Xác nhận mật khẩu mới
                 </label>
-                <input type="password" id="confirmPassword" className={inputModern} style={{ marginBottom: 0 }} />
+                <input type="password" id="confirmPassword" className={inputModern} autoComplete="new-password" />
               </div>
               <div className="we-dash-modal-actions">
                 <button
@@ -591,12 +592,15 @@ export default function Dashboard() {
                     handleChangePassword({ currentPassword, newPassword });
                   }}
                   disabled={updateLoading}
-                  className={`${btnPrimaryClass}`}
-                  style={{ flex: 1 }}
+                  className={btnPrimaryClass}
                 >
                   {updateLoading ? 'Đang đổi...' : 'Đổi mật khẩu'}
                 </button>
-                <button type="button" onClick={() => setShowPasswordModal(false)} className="we-btn" style={{ flex: 1 }}>
+                <button
+                  type="button"
+                  onClick={() => setShowPasswordModal(false)}
+                  className="we-btn we-btn--ghost"
+                >
                   Hủy
                 </button>
               </div>
