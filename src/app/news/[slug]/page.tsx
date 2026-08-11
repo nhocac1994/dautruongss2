@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import SubPageLayout from '@/components/SubPageLayout';
 import { getNewsArticle, formatNewsDateLong } from '@/lib/news-api';
 import { renderArticleContent } from '@/lib/simple-markdown';
+import { newsBadgeClass } from '@/lib/page-theme';
 
 export default function NewsArticlePage() {
   const params = useParams();
@@ -25,43 +26,52 @@ export default function NewsArticlePage() {
   }, [slug]);
 
   return (
-    <div className="we-page">
-      <SubPageLayout
-        breadcrumbs={[
-          { label: 'Bản tin', href: '/news' },
-          { label: article?.title || slug || '...' },
-        ]}
-      >
-        {loading && (
-          <div className="we-loading-center"><div className="we-spinner" /></div>
-        )}
+    <SubPageLayout>
+      <Link href="/" className="ns-article-back">
+        ← Quay lại bản tin
+      </Link>
 
-        {notFound && !loading && (
-          <div className="we-box">
-            <div className="we-box-body" style={{ textAlign: 'center' }}>
-              <p style={{ color: '#777', marginBottom: 12 }}>Không tìm thấy bài viết.</p>
-              <Link href="/news" className="we-read-more">← Quay lại bản tin</Link>
-            </div>
-          </div>
-        )}
+      {loading && (
+        <div className="ns-loading">
+          <div className="ns-spinner" />
+        </div>
+      )}
 
-        {article && (
-          <article className="we-box">
-            <div className="we-box-head">{article.title}</div>
-            <div className="we-box-body">
-              <p style={{ fontSize: 12, color: '#999', marginBottom: 15 }}>
-                {article.type} · {formatNewsDateLong(article.publishedAt)}
-              </p>
-              <div
-                className="we-article-content"
-                dangerouslySetInnerHTML={{
-                  __html: renderArticleContent(article.content, article.contentFormat),
-                }}
-              />
+      {notFound && !loading && (
+        <div className="ns-article ns-article--empty">
+          <p>Không tìm thấy bài viết.</p>
+          <Link href="/" className="ns-article-back">
+            ← Quay lại bản tin
+          </Link>
+        </div>
+      )}
+
+      {article && (
+        <article className="ns-article">
+          <header className="ns-article-head">
+            <div className="ns-news-meta">
+              <span className={newsBadgeClass(article.type)}>{article.type}</span>
+              <time className="ns-news-date" dateTime={article.publishedAt}>
+                {formatNewsDateLong(article.publishedAt)}
+              </time>
             </div>
-          </article>
-        )}
-      </SubPageLayout>
-    </div>
+            <h1 className="ns-article-title">{article.title}</h1>
+          </header>
+
+          <div
+            className="ns-article-body"
+            dangerouslySetInnerHTML={{
+              __html: renderArticleContent(article.content, article.contentFormat),
+            }}
+          />
+
+          <footer className="ns-article-foot">
+            <Link href="/" className="ns-article-cta">
+              ← Xem tất cả bản tin
+            </Link>
+          </footer>
+        </article>
+      )}
+    </SubPageLayout>
   );
 }

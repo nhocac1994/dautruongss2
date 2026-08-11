@@ -53,18 +53,37 @@ function parseVideoLine(line: string): string | null {
   return `<p><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">Xem video</a></p>`;
 }
 
-/** Emoji, ==tên nổi bật==, [VS], **đậm**, *nghiêng*, ![ảnh](url) */
+/** Emoji, ==tên nổi bật==, [VS], **đậm**, *nghiêng*, ![ảnh](url), URL */
 function inlineFormat(text: string): string {
   let s = escapeHtml(text);
   s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_m, alt, url) => {
     if (!isSafeImageUrl(url)) return escapeHtml(_m);
     return `<img src="${escapeAttr(url.trim())}" alt="${escapeAttr(alt)}" class="inline-img" loading="lazy" />`;
   });
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+|\/[^)]*)\)/g, (_m, label, url) => {
+    if (!isSafeMediaUrl(url)) return escapeHtml(_m);
+    return `<a href="${escapeAttr(url.trim())}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+  });
+  s = s.replace(/(https?:\/\/[^\s<]+)/g, (url) => {
+    const clean = url.replace(/[.,;:!?)\]}>]+$/, '');
+    const trail = url.slice(clean.length);
+    return `<a href="${escapeAttr(clean)}" target="_blank" rel="noopener noreferrer">${escapeHtml(clean)}</a>${trail}`;
+  });
   s = s.replace(/==(.+?)==/g, '<mark class="news-highlight">$1</mark>');
   s = s.replace(/\[VS\]/gi, '<span class="news-vs">VS</span>');
   s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
   return s;
+}
+
+function looksLikeSectionHeading(line: string): boolean {
+  const t = line.trim();
+  if (!t || t.length > 90) return false;
+  if (/^#{1,3}\s/.test(t)) return false;
+  if (/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(t)) return true;
+  if (/^[-•]\s*[A-ZÀ-Ỹ0-9\[].{1,60}:\s*$/u.test(t)) return true;
+  if (/^[A-ZÀ-Ỹ0-9\[].{1,50}:\s*$/u.test(t) && /[A-ZÀ-Ỹ]{3,}/u.test(t)) return true;
+  return false;
 }
 
 function parseImageLine(line: string): string | null {
@@ -143,6 +162,7 @@ export function simpleMarkdownToHtml(markdown: string): string {
       const t = line.trim();
       const media = parseMediaLine(t);
       if (media) html.push(media);
+      else if (looksLikeSectionHeading(t)) html.push(`<h3>${inlineFormat(t.replace(/^[-•]\s*/, ''))}</h3>`);
       else if (t) html.push(`<p>${inlineFormat(t)}</p>`);
     }
   }
